@@ -66,7 +66,7 @@
                             description="MOD_PRETTYPHOTORIBBON_FIELD_ITEMRATIO_DESC"
                     >
                         <option value="1x1" checked="true">1x1</option>
-                        <option value="3x4">3x4</option>
+                        <option value="4x3">4x3</option>
                         <option value="16x9">16x9</option>
                         <option value="21x9">21x9</option>
                     </field>
