@@ -40,121 +40,59 @@
                         description="MOD_PRETTYPHOTORIBBON_FIELD_INFO_DESC"
                 />
             </fieldset>
-            <fieldset name="content" label="MOD_PRETTYPHOTORIBBON_FIELDSET_CONTENT">
-                <field
-                        name="before"
-                        type="editor"
-                        label="MOD_PRETTYPHOTORIBBON_FIELD_BEFORE_LABEL"
-                        description="MOD_PRETTYPHOTORIBBON_FIELD_BEFORE_DESC"
-                        width="100%"
-                        height="250px"
-                        filter="safehtml"
-                />
-                <field
-                        name="after"
-                        type="editor"
-                        label="MOD_PRETTYPHOTORIBBON_FIELD_AFTER_LABEL"
-                        description="MOD_PRETTYPHOTORIBBON_FIELD_AFTER_DESC"
-                        width="100%"
-                        height="250px"
-                        filter="safehtml"
-                />
-            </fieldset>
-            <fieldset name="buttons" label="MOD_PRETTYPHOTORIBBON_FIELDSET_BUTTONS_LABEL">
-                <field
-                        name="block"
-                        type="radio"
-                        default="0"
-                        label="MOD_PRETTYPHOTORIBBON_FIELD_BLOCK_LABEL"
-                        description="MOD_PRETTYPHOTORIBBON_FIELD_BLOCK_DESC"
-                        class="btn-group btn-group-yesno">
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
-                </field>
-                <field
-                        name="customouterclass"
-                        type="text"
-                        default="py-3"
-                        label="MOD_PRETTYPHOTORIBBON_FIELD_CUSTOMOUTERCLASS_LABEL"
-                        description="MOD_PRETTYPHOTORIBBON_FIELD_CUSTOMOUTERCLASS_DESC"
-                />
-                <field
-                        name="buttons"
-                        type="subform"
-                        label="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONS_LABEL"
-                        description="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONS_DESC"
-                        multiple="true"
-                        min="1"
-                        max="10"
-                >
-                    <form>
-                        <field
-                                name="buttontext"
-                                type="text"
-                                label="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTEXT_LABEL"
-                                hint="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTEXT_HINT"
-                                description="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTEXT_DESC"
-                        />
-                        <field
-                                name="url"
-                                type="text"
-                                required="true"
-                                label="MOD_PRETTYPHOTORIBBON_FIELD_URL_LABEL"
-                                hint="MOD_PRETTYPHOTORIBBON_FIELD_URL_HINT"
-                                description="MOD_PRETTYPHOTORIBBON_FIELD_URL_DESC"
-                        />
-                        <field
-                                name="buttontarget"
-                                type="list"
-                                default="_blank"
-                                required="true"
-                                label="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTARGET_LABEL"
-                                description="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTARGET_DESC"
-                        >
-                            <option value="_blank" checked="true">MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTARGET_BLANK</option>
-                            <option value="_self">MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTARGET_SELF</option>
-                        </field>
-                        <field
-                                name="iconclass"
-                                type="text"
-                                label="MOD_PRETTYPHOTORIBBON_FIELD_ICONCLASS_LABEL"
-                                description="MOD_PRETTYPHOTORIBBON_FIELD_ICONCLASS_DESC"
-                                hint="fas fa-home"
-                        />
-                        <field
-                                name="buttonclass"
-                                type="checkboxes"
-                                default=""
-                                required="true"
-                                label="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONCLASS_LABEL"
-                                description="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONCLASS_DESC"
-                                multiple="true"
-                        >
-                            <option value="btn" checked="true">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTN</option>
-                            <option value="btn-primary">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNPRIMARY</option>
-                            <option value="btn-secondary">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNSECONDARY</option>
-                            <option value="btn-success">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNSUCCESS</option>
-                            <option value="btn-danger">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNDANGER</option>
-                            <option value="btn-warning">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNWARNING</option>
-                            <option value="btn-info">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNINFO</option>
-                            <option value="btn-light">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNLIGHT</option>
-                            <option value="btn-dark">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNDARK</option>
-                            <option value="btn-link">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNLINK</option>
-                            <option value="btn-lg">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNLG</option>
-                            <option value="btn-sm">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNSM</option>
-                            <option value="w-100">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_W100</option>
-                            <option value="custom">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_CUSTOMCLASS</option>
-                        </field>
-                        <field
-                                name="custombuttonclass"
-                                type="text"
-                                label="MOD_PRETTYPHOTORIBBON_FIELD_CUSTOMBUTTONCLASS_LABEL"
-                                hint="btn btn-primary"
-                                description="MOD_PRETTYPHOTORIBBON_FIELD_CUSTOMBUTTONCLASS_DESC"
-                                showon="buttonclass:custom"
-                        />
-                    </form>
-                </field>
+            <fieldset name ="ribbon" label="MOD_PRETTYPHOTORIBBON_FIELDSET_RIBBON">
+                <fieldset name="settings" label="MOD_PRETTYPHOTORIBBON_FIELDSET_SETTINGS">
+                    <field
+                            name="itemsvisible"
+                            type="list"
+                            default="4"
+                            required="true"
+                            label="MOD_PRETTYPHOTORIBBON_FIELD_ITEMSVISIBLE_LABEL"
+                            description="MOD_PRETTYPHOTORIBBON_FIELD_ITEMSVISIBLE_DESC"
+                    >
+                        <option value="1" checked="true">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </field>
+                    <field
+                            name="itemratio"
+                            type="list"
+                            default="4"
+                            required="true"
+                            label="MOD_PRETTYPHOTORIBBON_FIELD_ITEMRATIO_LABEL"
+                            description="MOD_PRETTYPHOTORIBBON_FIELD_ITEMRATIO_DESC"
+                    >
+                        <option value="1x1" checked="true">1x1</option>
+                        <option value="3x4">3x4</option>
+                        <option value="16x9">16x9</option>
+                        <option value="21x9">21x9</option>
+                    </field>
+                </fieldset>
+                <fieldset name="images" label="MOD_PRETTYPHOTORIBBON_FIELDSET_IMAGES">
+                     <field
+                            name="ribbonitems"
+                            type="subform"
+                            label="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONITEMS_LABEL"
+                            description="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONITEMS_DESC"
+                            multiple="true"
+                            min="1"
+                            max="10"
+                    >
+                        <form>
+                            <field
+                                    name="ribbonimage"
+                                    type="media"
+                                    label="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONIMAGE_LABEL"
+                                    description="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONIMAGE_DESC"
+                                    required="true"
+                            />
+
+                         </form>
+                    </field>
+                </fieldset>
             </fieldset>
             <fieldset name="advanced">
                 <field

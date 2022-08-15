@@ -14,10 +14,8 @@ use TlwebNamespace\Module\Prettyphotoribbon\Site\Helper\PrettyphotoribbonHelper;
 
 // $test  = PrettyphotoribbonHelper::getText();
 
-$block            = $params->get('block');
-$customouterclass = $params->get('customouterclass');
-$before           = $params->get('before');
-$buttons          = $params->get('buttons');
-$after            = $params->get('after');
+$itemsVisible	  = $params->get('itemsvisible');
+$itemRatio		  = $params->get('itemratio');
+$ribbonItems   	  = $params->get('ribbonitems');
 
 require ModuleHelper::getLayoutPath('mod_prettyphotoribbon', $params->get('layout', 'default'));
