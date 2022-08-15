@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" method="upgrade">
+    <name>MOD_PRETTYPHOTORIBBON</name>
+    <creationDate>2022-08-15</creationDate>
+    <author>Tom van der Laan</author>
+    <authorEmail>info@tlwebdesign.nl</authorEmail>
+    <authorUrl>https://tlwebdesign.nl</authorUrl>
+    <copyright>TLWebdesign.nl</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>0.1.0</version>
+    <description>MOD_PRETTYPHOTORIBBON_XML_DESCRIPTION</description>
+    <scriptfile>script.php</scriptfile>
+    <namespace path="src">TlwebNamespace\Module\Prettyphotoribbon</namespace>
+    <files>
+        <filename module="MOD_PRETTYPHOTORIBBON">mod_prettyphotoribbon.php</filename>
+        <folder>tmpl</folder>
+        <folder>src</folder>
+        <folder>language</folder>
+        <filename>mod_prettyphotoribbon.xml</filename>
+    </files>
+    <media folder="media" destination="mod_prettyphotoribbon">
+        <filename>logo.svg</filename>
+    </media>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="logo"
+                        type="note"
+                        description="MOD_PRETTYPHOTORIBBON_FIELD_LOGO_DESC"
+                />
+                <field
+                        name="ownerinfo"
+                        type="note"
+                        description="MOD_PRETTYPHOTORIBBON_FIELD_OWNERINFO_DESC"
+                />
+                <field
+                        name="info"
+                        type="note"
+                        description="MOD_PRETTYPHOTORIBBON_FIELD_INFO_DESC"
+                />
+            </fieldset>
+            <fieldset name="content" label="MOD_PRETTYPHOTORIBBON_FIELDSET_CONTENT">
+                <field
+                        name="before"
+                        type="editor"
+                        label="MOD_PRETTYPHOTORIBBON_FIELD_BEFORE_LABEL"
+                        description="MOD_PRETTYPHOTORIBBON_FIELD_BEFORE_DESC"
+                        width="100%"
+                        height="250px"
+                        filter="safehtml"
+                />
+                <field
+                        name="after"
+                        type="editor"
+                        label="MOD_PRETTYPHOTORIBBON_FIELD_AFTER_LABEL"
+                        description="MOD_PRETTYPHOTORIBBON_FIELD_AFTER_DESC"
+                        width="100%"
+                        height="250px"
+                        filter="safehtml"
+                />
+            </fieldset>
+            <fieldset name="buttons" label="MOD_PRETTYPHOTORIBBON_FIELDSET_BUTTONS_LABEL">
+                <field
+                        name="block"
+                        type="radio"
+                        default="0"
+                        label="MOD_PRETTYPHOTORIBBON_FIELD_BLOCK_LABEL"
+                        description="MOD_PRETTYPHOTORIBBON_FIELD_BLOCK_DESC"
+                        class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="customouterclass"
+                        type="text"
+                        default="py-3"
+                        label="MOD_PRETTYPHOTORIBBON_FIELD_CUSTOMOUTERCLASS_LABEL"
+                        description="MOD_PRETTYPHOTORIBBON_FIELD_CUSTOMOUTERCLASS_DESC"
+                />
+                <field
+                        name="buttons"
+                        type="subform"
+                        label="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONS_LABEL"
+                        description="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONS_DESC"
+                        multiple="true"
+                        min="1"
+                        max="10"
+                >
+                    <form>
+                        <field
+                                name="buttontext"
+                                type="text"
+                                label="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTEXT_LABEL"
+                                hint="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTEXT_HINT"
+                                description="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTEXT_DESC"
+                        />
+                        <field
+                                name="url"
+                                type="text"
+                                required="true"
+                                label="MOD_PRETTYPHOTORIBBON_FIELD_URL_LABEL"
+                                hint="MOD_PRETTYPHOTORIBBON_FIELD_URL_HINT"
+                                description="MOD_PRETTYPHOTORIBBON_FIELD_URL_DESC"
+                        />
+                        <field
+                                name="buttontarget"
+                                type="list"
+                                default="_blank"
+                                required="true"
+                                label="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTARGET_LABEL"
+                                description="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTARGET_DESC"
+                        >
+                            <option value="_blank" checked="true">MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTARGET_BLANK</option>
+                            <option value="_self">MOD_PRETTYPHOTORIBBON_FIELD_BUTTONTARGET_SELF</option>
+                        </field>
+                        <field
+                                name="iconclass"
+                                type="text"
+                                label="MOD_PRETTYPHOTORIBBON_FIELD_ICONCLASS_LABEL"
+                                description="MOD_PRETTYPHOTORIBBON_FIELD_ICONCLASS_DESC"
+                                hint="fas fa-home"
+                        />
+                        <field
+                                name="buttonclass"
+                                type="checkboxes"
+                                default=""
+                                required="true"
+                                label="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONCLASS_LABEL"
+                                description="MOD_PRETTYPHOTORIBBON_FIELD_BUTTONCLASS_DESC"
+                                multiple="true"
+                        >
+                            <option value="btn" checked="true">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTN</option>
+                            <option value="btn-primary">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNPRIMARY</option>
+                            <option value="btn-secondary">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNSECONDARY</option>
+                            <option value="btn-success">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNSUCCESS</option>
+                            <option value="btn-danger">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNDANGER</option>
+                            <option value="btn-warning">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNWARNING</option>
+                            <option value="btn-info">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNINFO</option>
+                            <option value="btn-light">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNLIGHT</option>
+                            <option value="btn-dark">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNDARK</option>
+                            <option value="btn-link">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNLINK</option>
+                            <option value="btn-lg">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNLG</option>
+                            <option value="btn-sm">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_BTNSM</option>
+                            <option value="w-100">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_W100</option>
+                            <option value="custom">MOD_PRETTYPHOTORIBBON_BUTTONCLASS_CUSTOMCLASS</option>
+                        </field>
+                        <field
+                                name="custombuttonclass"
+                                type="text"
+                                label="MOD_PRETTYPHOTORIBBON_FIELD_CUSTOMBUTTONCLASS_LABEL"
+                                hint="btn btn-primary"
+                                description="MOD_PRETTYPHOTORIBBON_FIELD_CUSTOMBUTTONCLASS_DESC"
+                                showon="buttonclass:custom"
+                        />
+                    </form>
+                </field>
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        class="form-select"
+                        validate="moduleLayout"
+                />
+
+                <field
+                        name="moduleclass_sfx"
+                        type="textarea"
+                        label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                        rows="3"
+                        validate="CssIdentifier"
+                />
+
+                <field
+                        name="cache"
+                        type="list"
+                        label="COM_MODULES_FIELD_CACHING_LABEL"
+                        default="1"
+                        filter="integer"
+                        validate="options"
+                >
+                    <option value="1">JGLOBAL_USE_GLOBAL</option>
+                    <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+
+                <field
+                        name="cache_time"
+                        type="number"
+                        label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+                        default="900"
+                        filter="integer"
+                />
+
+                <field
+                        name="cachemode"
+                        type="hidden"
+                        default="static"
+                >
+                    <option value="static"></option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+    <updateservers>
+        <server type="extension" priority="2" name="Pretty PhotoRibbon Updates">
+            https://raw.githubusercontent.com/TLWebdesign/Pretty-Photoribbon/main/updates.xml
+        </server>
+    </updateservers>
+</extension>
