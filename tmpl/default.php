@@ -11,19 +11,18 @@
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
-var_dump($itemsVisible);
-var_dump($itemRatio);
-var_dump($ribbonItems);
-$itemsVisibleRatio = 1 / $itemsVisible;
+$itemsVisibleRatio = (1 / $itemsVisible) * 100;
 HTMLHelper::_('bootstrap.carousel', 'carouselExampleControls');
+
 
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->addInlineStyle('
     @media (min-width: 768px) {
         .carousel-inner {
             display: flex;
-            padding: 0.5em;
+            padding-right: 0.5em;
         }
         .carousel-item {
             margin-right: 0;
@@ -38,65 +37,52 @@ $wa->addInlineStyle('
 $wa->addInlineScript('
     document.addEventListener("DOMContentLoaded", () => {
         var multipleCardCarousel = document.querySelector(
-          "#carouselExampleControls"
+          "#prettyRibbon'.$moduleId.'"
         );
         if (window.matchMedia("(min-width: 768px)").matches) {
           var carouselWidth = $(".carousel-inner")[0].scrollWidth;
           var cardWidth = $(".carousel-item").width();
           var scrollPosition = 0;
-          $("#carouselExampleControls .carousel-control-next").on("click", function () {
+          $("#prettyRibbon'.$moduleId.' .carousel-control-next").on("click", function () {
             if (scrollPosition < carouselWidth - cardWidth * 4) {
               scrollPosition += cardWidth;
-              $("#carouselExampleControls .carousel-inner").animate(
+              $("#prettyRibbon'.$moduleId.' .carousel-inner").animate(
                 { scrollLeft: scrollPosition },
                 600
               );
             }
           });
-          $("#carouselExampleControls .carousel-control-prev").on("click", function () {
+          $("#prettyRibbon'.$moduleId.' .carousel-control-prev").on("click", function () {
             if (scrollPosition > 0) {
               scrollPosition -= cardWidth;
-              $("#carouselExampleControls .carousel-inner").animate(
+              $("#prettyRibbon'.$moduleId.' .carousel-inner").animate(
                 { scrollLeft: scrollPosition },
                 600
               );
             }
           });
         } else {
-          $(multipleCardCarousel).addClass("slide");
+          $("#prettyRibbon'.$moduleId.'").addClass("slide");
         }
     });
 ');
-
 ?>
-<div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+<div id="prettyRibbon<?php echo $moduleId; ?>" class="carousel" data-bs-ride="carousel">
     <div class="carousel-inner">
-        <div class="carousel-item active">
-            <div class="ratio ratio-1x1 w-100 bg-warning">Slide 1</div>
-        </div>
-        <div class="carousel-item">
-            <div class="ratio ratio-1x1 w-100 bg-info">Slide 2</div>
-        </div>
-        <div class="carousel-item">
-            <div class="ratio ratio-1x1 w-100 bg-danger">Slide 3</div>
-        </div>
-        <div class="carousel-item">
-            <div class="ratio ratio-1x1 w-100 bg-success">Slide 4</div>
-        </div>
-        <div class="carousel-item">
-            <div class="ratio ratio-1x1 w-100 bg-secondary">Slide 5</div>
-        </div>
-        <div class="carousel-item">
-            <div class="ratio ratio-1x1 w-100 bg-primary">Slide 6</div>
-        </div>
-
+        <?php foreach ($ribbonItems as $i => $r) : ;?>
+            <div class="carousel-item <?php echo (preg_replace('/\D/', '', $i) == 0) ? 'active': ''; ?>">
+                <div class="ratio ratio-<?php echo $itemRatio; ?> w-100"
+                     style="background:url('<?php echo $r->ribbonimage->url; ?>') center center / cover no-repeat;">
+                </div>
+         </div>
+        <?php endforeach; ?>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#prettyRibbon<?php echo $moduleId; ?>" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+        <span class="visually-hidden"><?php echo Text::_('PREVIOUS');?></span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#prettyRibbon<?php echo $moduleId; ?>" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+        <span class="visually-hidden"><?php echo Text::_('NEXT');?></span>
     </button>
 </div>
