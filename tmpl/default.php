@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 $itemsVisibleRatio = (1 / $itemsVisible) * 100;
 HTMLHelper::_('bootstrap.carousel', 'carouselExampleControls');
-
+HTMLHelper::_('jquery.framework');
 
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->addInlineStyle('
