@@ -46,11 +46,11 @@ $wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyph
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#prettyRibbon<?php echo $moduleId; ?>" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden"><?php echo Text::_('PREVIOUS');?></span>
+            <span class="visually-hidden"><?php echo Text::_('JPREVIOUS');?></span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#prettyRibbon<?php echo $moduleId; ?>" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden"><?php echo Text::_('NEXT');?></span>
+            <span class="visually-hidden"><?php echo Text::_('JNEXT');?></span>
         </button>
     </div>
 </div>
@@ -89,11 +89,11 @@ $wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyph
                     <button type="button" class="btn-close position-absolute top-0 end-0 p-2 m-1 bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     <a class="carousel-control-prev" href="#prettyRibbonModalCarousel<?php echo $moduleId; ?>" role="button" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only"><?php echo Text::_('PREVIOUS');?></span>
+                        <span class="sr-only"><?php echo Text::_('JPREVIOUS');?></span>
                     </a>
                     <a class="carousel-control-next" href="#prettyRibbonModalCarousel<?php echo $moduleId; ?>" role="button" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only"><?php echo Text::_('NEXT');?></span>
+                        <span class="sr-only"><?php echo Text::_('JNEXT');?></span>
                     </a>
                 </div>
             </div>
