@@ -10,79 +10,93 @@
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$itemsVisibleRatio = (1 / $itemsVisible) * 100;
-HTMLHelper::_('bootstrap.carousel', 'carouselExampleControls');
-HTMLHelper::_('jquery.framework');
+HTMLHelper::_('bootstrap.carousel', 'prettyRibbon' . $moduleId);
+HTMLHelper::_('bootstrap.carousel', 'prettyRibbonModalCarousel' . $moduleId);
+HTMLHelper::_('bootstrap.modal', 'prettyRibbonModal' . $moduleId);
 
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->addInlineStyle('
-    @media (min-width: 768px) {
-        .carousel-inner {
-            display: flex;
-            padding-right: 0.5em;
-        }
-        .carousel-item {
-            margin-right: 0;
-            flex: 0 0 ' . $itemsVisibleRatio . '%;
-            display: block;
-        }
-        .carousel-inner .carousel-item:first-child {
-            margin-left: -0.5rem
-        }
-    }
-');
-$wa->addInlineScript('
-    document.addEventListener("DOMContentLoaded", () => {
-        var multipleCardCarousel = document.querySelector(
-          "#prettyRibbon'.$moduleId.'"
-        );
-        if (window.matchMedia("(min-width: 768px)").matches) {
-          var carouselWidth = $(".carousel-inner")[0].scrollWidth;
-          var cardWidth = $(".carousel-item").width();
-          var scrollPosition = 0;
-          $("#prettyRibbon'.$moduleId.' .carousel-control-next").on("click", function () {
-            if (scrollPosition < carouselWidth - cardWidth * 4) {
-              scrollPosition += cardWidth;
-              $("#prettyRibbon'.$moduleId.' .carousel-inner").animate(
-                { scrollLeft: scrollPosition },
-                600
-              );
-            }
-          });
-          $("#prettyRibbon'.$moduleId.' .carousel-control-prev").on("click", function () {
-            if (scrollPosition > 0) {
-              scrollPosition -= cardWidth;
-              $("#prettyRibbon'.$moduleId.' .carousel-inner").animate(
-                { scrollLeft: scrollPosition },
-                600
-              );
-            }
-          });
-        } else {
-          $("#prettyRibbon'.$moduleId.'").addClass("slide");
-        }
-    });
-');
+$itemsVisibleRatio = (1 / $itemsVisible) * 100;
+$slideCounter = 0;
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('prettyphotoribbon', 'mod_prettyphotoribbon/prettyphotoribbon.min.js', [], ['type' => 'module']);
+$wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyphotoribbon.min.css', [], [], []);
 ?>
-<div id="prettyRibbon<?php echo $moduleId; ?>" class="carousel" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <?php foreach ($ribbonItems as $i => $r) : ;?>
-            <div class="carousel-item <?php echo (preg_replace('/\D/', '', $i) == 0) ? 'active': ''; ?>">
-                <div class="ratio ratio-<?php echo $itemRatio; ?> w-100"
-                     style="background:url('<?php echo $r->ribbonimage->url; ?>') center center / cover no-repeat;">
-                </div>
-         </div>
-        <?php endforeach; ?>
+<div class="prettyRibbonWrapper">
+    <div id="prettyRibbonCarousel<?php echo $moduleId; ?>" class="carousel" data-bs-ride="carousel">
+        <div class="carousel-inner" data-bs-toggle="modal" data-bs-target="#prettyRibbonModal<?php echo $moduleId; ?>">
+            <?php
+            $slideCounter = 0;
+            foreach ($ribbonItems as $r) : ;?>
+                <div
+                        class="carousel-item <?php echo ($slideCounter == 0) ? 'active': ''; ?>"
+                        data-bs-target="#prettyRibbonModalCarousel<?php echo $moduleId; ?>"
+                        data-bs-slide-to="<?php echo $slideCounter; ?>"
+                        style="flex: 0 0 <?php echo $itemsVisibleRatio;?>%;
+"
+                >
+                    <div class="ratio ratio-<?php echo $itemRatio; ?> w-100"
+                         style="background:url('<?php echo $r->ribbonimage->url; ?>') center center / cover no-repeat;">
+                    </div>
+             </div>
+            <?php
+                $slideCounter++;
+            endforeach;
+            ?>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#prettyRibbon<?php echo $moduleId; ?>" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"><?php echo Text::_('PREVIOUS');?></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#prettyRibbon<?php echo $moduleId; ?>" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"><?php echo Text::_('NEXT');?></span>
+        </button>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#prettyRibbon<?php echo $moduleId; ?>" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden"><?php echo Text::_('PREVIOUS');?></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#prettyRibbon<?php echo $moduleId; ?>" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden"><?php echo Text::_('NEXT');?></span>
-    </button>
+</div>
+
+<div class="modal fade" id="prettyRibbonModal<?php echo $moduleId; ?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body p-0">
+                <div id="prettyRibbonModalCarousel<?php echo $moduleId; ?>" class="carousel slide" data-bs-ride="carousel">
+                    <ol class="carousel-indicators">
+						<?php
+						$slideCounter = 0;
+						foreach ($ribbonItems as $r) : ;?>
+                            <li
+                                    data-bs-target="#prettyRibbonModalCarousel<?php echo $moduleId; ?>"
+                                    data-bs-slide-to="<?php echo $slideCounter; ?>"
+                                    class="<?php echo ($slideCounter == 0) ? 'active': ''; ?>">
+                            </li>
+						<?php
+                            $slideCounter++;
+                        endforeach;
+                        ?>
+                    </ol>
+                    <div class="carousel-inner">
+						<?php
+						$slideCounter = 0;
+						foreach ($ribbonItems as $r) : ;?>
+                            <div class="carousel-item <?php echo ($slideCounter == 0) ? 'active': ''; ?>">
+                                <img class="d-block w-auto mx-auto max-vh-100 mh-100" src="<?php echo $r->ribbonimage->url; ?>">
+                            </div>
+                        <?php
+                            $slideCounter++;
+                        endforeach;
+                        ?>
+                     </div>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 p-2 m-1 bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <a class="carousel-control-prev" href="#prettyRibbonModalCarousel<?php echo $moduleId; ?>" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only"><?php echo Text::_('PREVIOUS');?></span>
+                    </a>
+                    <a class="carousel-control-next" href="#prettyRibbonModalCarousel<?php echo $moduleId; ?>" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only"><?php echo Text::_('NEXT');?></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

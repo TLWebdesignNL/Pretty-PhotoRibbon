@@ -1,0 +1,23 @@
+@media (min-width: 768px) {
+    div[id^=prettyRibbonCarousel] .carousel-inner {
+        display: flex;
+        padding-right: 0.5em;
+    }
+
+    div[id^=prettyRibbonCarousel] .carousel-item {
+        margin-right: 0;
+        display: block;
+    }
+
+    div[id^=prettyRibbonCarousel] .carousel-inner .carousel-item:first-child {
+        margin-left: -0.5rem
+    }
+}
+
+div[id^=prettyRibbonModalCarousel] .btn-close {
+    z-index: 1100;
+}
+
+.max-vh-100 {
+    max-height: calc(100vh - 3.5rem) !important;
+}
