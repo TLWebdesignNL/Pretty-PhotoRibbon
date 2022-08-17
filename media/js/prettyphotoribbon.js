@@ -28,38 +28,51 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    var prettyPhotoribbonCarousel = document.querySelector("div[id^=prettyRibbonCarousel]");
-    if (window.matchMedia("(min-width: 768px)").matches) {
-        var carouselWidth = prettyPhotoribbonCarousel.getElementsByClassName("carousel-inner")[0].scrollWidth;
-        var itemWidth = prettyPhotoribbonCarousel.getElementsByClassName("carousel-item")[0].offsetWidth;
-        var scrollPosition = 0;
+    var prettyPhotoribbonCarousels = document.querySelectorAll("div[id^=prettyRibbonCarousel]");
 
-        prettyPhotoribbonCarousel.children[2].addEventListener("click", function () {
-            if (scrollPosition < carouselWidth - itemWidth * 4) {
-                var temp = scrollPosition;
-                scrollPosition += itemWidth;
-                if (isSafari) {
-                    smoothHorizontalScrolling(prettyPhotoribbonCarousel.children[0], 600, itemWidth, temp);
-                    console.log("scripted scrolling");
-                } else {
-                    prettyPhotoribbonCarousel.children[0].scrollBy({ left: itemWidth, top: 0,behavior:"smooth"})
-                    console.log("native scrolling");
-                }
-            }
-        });
+    for (let i = 0; i < prettyPhotoribbonCarousels.length; i++) {
+        if (window.matchMedia("(min-width: 768px)").matches) {
+            let carouselWidth = prettyPhotoribbonCarousels[i].getElementsByClassName("carousel-inner")[0].scrollWidth;
+            let itemWidth = prettyPhotoribbonCarousels[i].getElementsByClassName("carousel-item")[0].offsetWidth;
+            let scrollPosition = 0;
 
-        prettyPhotoribbonCarousel.children[1].addEventListener("click", function () {
-            if (scrollPosition > 0) {
-                var temp = scrollPosition;
-                scrollPosition -= itemWidth;
-                if (isSafari) {
-                    smoothHorizontalScrolling(prettyPhotoribbonCarousel.children[0], 600, scrollPosition - temp, temp);
-                } else {
-                    prettyPhotoribbonCarousel.children[0].scrollBy({ left: -itemWidth, top: 0,behavior:"smooth"})
+            prettyPhotoribbonCarousels[i].children[2].addEventListener("click", function () {
+                if (scrollPosition < carouselWidth - itemWidth * 4) {
+                    let temp = scrollPosition;
+                    scrollPosition += itemWidth;
+                    if (isSafari) {
+                        smoothHorizontalScrolling(prettyPhotoribbonCarousels[i].children[0], 600, itemWidth, temp);
+                        console.log("scripted scrolling");
+                    } else {
+                        prettyPhotoribbonCarousels[i].children[0].scrollBy({
+                            left: itemWidth,
+                            top: 0,
+                            behavior: "smooth"
+                        })
+                        console.log("native scrolling");
+                    }
                 }
-            }
-        });
-    } else {
-        prettyPhotoribbonCarousel.addClass("slide");
+            });
+
+            prettyPhotoribbonCarousels[i].children[1].addEventListener("click", function () {
+                if (scrollPosition > 0) {
+                    let temp = scrollPosition;
+                    scrollPosition -= itemWidth;
+                    if (isSafari) {
+                        smoothHorizontalScrolling(prettyPhotoribbonCarousels[i].children[0], 600, scrollPosition - temp, temp);
+                        console.log("scripted scrolling");
+                    } else {
+                        prettyPhotoribbonCarousels[i].children[0].scrollBy({
+                            left: -itemWidth,
+                            top: 0,
+                            behavior: "smooth"
+                        })
+                        console.log("native scrolling");
+                    }
+                }
+            });
+        } else {
+            prettyPhotoribbonCarousels[i].addClass("slide");
+        }
     }
 });

@@ -79,7 +79,7 @@
                             description="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONITEMS_DESC"
                             multiple="true"
                             min="1"
-                            max="10"
+                            max="20"
                     >
                         <form>
                             <field
