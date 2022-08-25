@@ -7,7 +7,7 @@
     <authorUrl>https://tlwebdesign.nl</authorUrl>
     <copyright>TLWebdesign.nl</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
     <description>MOD_PRETTYPHOTORIBBON_XML_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <namespace path="src">TlwebNamespace\Module\Prettyphotoribbon</namespace>
