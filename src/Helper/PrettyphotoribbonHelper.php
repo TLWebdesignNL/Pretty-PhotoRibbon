@@ -25,7 +25,7 @@ class PrettyphotoribbonHelper
      * @param   Registry        $params  The module parameters
      * @param   CMSApplication  $app     The application
      *
-     * @return  array
+     * @return  string
      */
     public static function getText()
     {
