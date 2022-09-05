@@ -42,7 +42,7 @@
                         description="MOD_PRETTYPHOTORIBBON_FIELD_INFO_DESC"
                 />
             </fieldset>
-            <fieldset name ="ribbon" label="MOD_PRETTYPHOTORIBBON_FIELDSET_RIBBON">
+            <fieldset name="ribbon" label="MOD_PRETTYPHOTORIBBON_FIELDSET_RIBBON">
                 <fieldset name="settings" label="MOD_PRETTYPHOTORIBBON_FIELDSET_SETTINGS">
                     <field
                             name="itemsvisible"
@@ -74,7 +74,7 @@
                     </field>
                 </fieldset>
                 <fieldset name="images" label="MOD_PRETTYPHOTORIBBON_FIELDSET_IMAGES">
-                     <field
+                    <field
                             name="ribbonitems"
                             type="subform"
                             label="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONITEMS_LABEL"
@@ -92,7 +92,7 @@
                                     required="true"
                             />
 
-                         </form>
+                        </form>
                     </field>
                 </fieldset>
             </fieldset>

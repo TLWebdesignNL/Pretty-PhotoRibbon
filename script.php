@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_prettyphotoribbon
@@ -18,103 +19,100 @@ use Joomla\CMS\Log\Log;
  */
 class mod_prettyphotoribbonInstallerScript
 {
+    /**
+     * Extension script constructor.
+     *
+     * @return  void
+     */
+    public function __construct()
+    {
+        $this->minimumJoomla = '4.0';
+        $this->minimumPhp    = JOOMLA_MINIMUM_PHP;
+    }
 
-	/**
-	 * Extension script constructor.
-	 *
-	 * @return  void
-	 */
-	public function __construct()
-	{
-		$this->minimumJoomla = '4.0';
-		$this->minimumPhp    = JOOMLA_MINIMUM_PHP;
-	}
+    /**
+     * Method to install the extension
+     *
+     * @param   InstallerAdapter  $parent  The class calling this method
+     *
+     * @return  boolean  True on success
+     */
+    function install($parent)
+    {
+        echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_INSTALL');
 
-	/**
-	 * Method to install the extension
-	 *
-	 * @param   InstallerAdapter  $parent  The class calling this method
-	 *
-	 * @return  boolean  True on success
-	 */
-	function install($parent)
-	{
-		echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_INSTALL');
+        return true;
+    }
 
-		return true;
-	}
+    /**
+     * Method to uninstall the extension
+     *
+     * @param   InstallerAdapter  $parent  The class calling this method
+     *
+     * @return  boolean  True on success
+     */
+    function uninstall($parent)
+    {
+        echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_UNINSTALL');
 
-	/**
-	 * Method to uninstall the extension
-	 *
-	 * @param   InstallerAdapter  $parent  The class calling this method
-	 *
-	 * @return  boolean  True on success
-	 */
-	function uninstall($parent)
-	{
-		echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_UNINSTALL');
+        return true;
+    }
 
-		return true;
-	}
+    /**
+     * Method to update the extension
+     *
+     * @param   InstallerAdapter  $parent  The class calling this method
+     *
+     * @return  boolean  True on success
+     */
+    function update($parent)
+    {
+        echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_UPDATE');
 
-	/**
-	 * Method to update the extension
-	 *
-	 * @param   InstallerAdapter  $parent  The class calling this method
-	 *
-	 * @return  boolean  True on success
-	 */
-	function update($parent)
-	{
-		echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_UPDATE');
+        return true;
+    }
 
-		return true;
-	}
+    /**
+     * Function called before extension installation/update/removal procedure commences
+     *
+     * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
+     * @param   InstallerAdapter  $parent  The class calling this method
+     *
+     * @return  boolean  True on success
+     */
+    function preflight($type, $parent)
+    {
+        // Check for the minimum PHP version before continuing
+        if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<')) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), Log::WARNING, 'jerror');
 
-	/**
-	 * Function called before extension installation/update/removal procedure commences
-	 *
-	 * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
-	 * @param   InstallerAdapter  $parent  The class calling this method
-	 *
-	 * @return  boolean  True on success
-	 */
-	function preflight($type, $parent)
-	{
-		// Check for the minimum PHP version before continuing
-		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
-		{
-			Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), Log::WARNING, 'jerror');
+            return false;
+        }
 
-			return false;
-		}
+        // Check for the minimum Joomla version before continuing
+        if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<')) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), Log::WARNING, 'jerror');
 
-		// Check for the minimum Joomla version before continuing
-		if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<'))
-		{
-			Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), Log::WARNING, 'jerror');
+            return false;
+        }
 
-			return false;
-		}
+        echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_PREFLIGHT');
 
-		echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_PREFLIGHT');
+        return true;
+    }
 
-		return true;
-	}
+    /**
+     * Function called after extension installation/update/removal procedure commences
+     *
+     * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
+     * @param   InstallerAdapter  $parent  The class calling this method
+     *
+     * @return  boolean  True on success
+     */
+    function postflight($type, $parent)
+    {
+        echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_POSTFLIGHT');
 
-	/**
-	 * Function called after extension installation/update/removal procedure commences
-	 *
-	 * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
-	 * @param   InstallerAdapter  $parent  The class calling this method
-	 *
-	 * @return  boolean  True on success
-	 */
-	function postflight($type, $parent)
-	{
-		echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_POSTFLIGHT');
-
-		return true;
-	}
+        return true;
+    }
 }

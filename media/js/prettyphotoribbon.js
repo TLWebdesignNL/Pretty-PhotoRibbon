@@ -14,9 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
             scrollCounter++;
         }
     }
+
     function SHS_B(e, sc, eAmt, start) {
         e.scrollLeft = (eAmt * sc) + start;
     }
+
     // CHECK IF BROWSER IS SAFARI
     var ua = navigator.userAgent.toLowerCase();
     var isSafari = false;

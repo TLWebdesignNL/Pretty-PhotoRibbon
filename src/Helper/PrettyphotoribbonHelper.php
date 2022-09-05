@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_prettyphotoribbon
@@ -18,16 +19,16 @@ namespace TlwebNamespace\Module\Prettyphotoribbon\Site\Helper;
  */
 class PrettyphotoribbonHelper
 {
-	/**
-	 * Retrieve Prettyphotoribbon test
-	 *
-	 * @param   Registry        $params  The module parameters
-	 * @param   CMSApplication  $app     The application
-	 *
-	 * @return  array
-	 */
-	public static function getText()
-	{
-		return 'PrettyphotoribbonHelpertest';
-	}
+    /**
+     * Retrieve Prettyphotoribbon test
+     *
+     * @param   Registry        $params  The module parameters
+     * @param   CMSApplication  $app     The application
+     *
+     * @return  array
+     */
+    public static function getText()
+    {
+        return 'PrettyphotoribbonHelpertest';
+    }
 }
