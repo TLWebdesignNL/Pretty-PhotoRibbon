@@ -59,7 +59,7 @@
         <maintainer>TLWebdesign</maintainer>
         <maintainerurl>https://www.tlwebdesign.nl/</maintainerurl>
         <section>Updates</section>
-        <targetplatform name="joomla" version="4.*"/>
+        <targetplatform name="joomla" version="4|5"/>
         <client>site</client>
     </update>
 </updates>

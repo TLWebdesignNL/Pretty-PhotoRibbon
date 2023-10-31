@@ -1,4 +1,4 @@
-# Pretty PhotoRibbon Module for Joomla 4
+# Pretty PhotoRibbon Module for Joomla 4 & Joomla 5
 A photo ribbon to display photos on your website
 
 This module can display images in a scrollable ribbon on your website.
