@@ -72,8 +72,28 @@
                         <option value="16x9">16x9</option>
                         <option value="21x9">21x9</option>
                     </field>
+                    <field
+                            name="source"
+                            type="radio"
+                            label="MOD_PRETTYPHOTORIBBON_FIELD_SOURCE_LABEL"
+                            description="MOD_PRETTYPHOTORIBBON_FIELD_SOURCE_DESC"
+                            class="btn-group"
+                            default="0"
+                    >
+                        <option value="0">MOD_PRETTYPHOTORIBBON_FIELD_SOURCE_OPTION_MANUAL</option>
+                        <option value="1">MOD_PRETTYPHOTORIBBON_FIELD_SOURCE_OPTION_FOLDER</option>
+                    </field>
                 </fieldset>
                 <fieldset name="images" label="MOD_PRETTYPHOTORIBBON_FIELDSET_IMAGES">
+                    <field
+                            name="folder"
+                            type="folderlist"
+                            default=""
+                            label="MOD_PRETTYPHOTORIBBON_FIELD_FOLDER_LABEL"
+                            directory="images"
+                            recursive="true"
+                            showon="source:1"
+                    />
                     <field
                             name="ribbonitems"
                             type="subform"
@@ -82,6 +102,7 @@
                             multiple="true"
                             min="1"
                             max="20"
+                            showon="source:0"
                     >
                         <form>
                             <field
@@ -89,9 +110,8 @@
                                     type="media"
                                     label="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONIMAGE_LABEL"
                                     description="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONIMAGE_DESC"
-                                    required="true"
+                                    required="false"
                             />
-
                         </form>
                     </field>
                 </fieldset>
