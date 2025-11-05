@@ -12,12 +12,12 @@
     <scriptfile>script.php</scriptfile>
     <namespace path="src">TLWeb\Module\Prettyphotoribbon</namespace>
     <files>
-        <folder>tmpl</folder>
+        <folder module="mod_prettyphotoribbon">services</folder>
         <folder>src</folder>
-        <folder>services</folder>
+        <folder>tmpl</folder>
         <folder>language</folder>
+        <filename>script.php</filename>
         <filename>changelog.xml</filename>
-        <filename>mod_prettyphotoribbon.xml</filename>
     </files>
     <media folder="media" destination="mod_prettyphotoribbon">
         <filename>logo.svg</filename>
@@ -171,4 +171,5 @@
             https://raw.githubusercontent.com/TLWebdesign/Pretty-Photoribbon/main/updates.xml
         </server>
     </updateservers>
+    <changelogurl>https://raw.githubusercontent.com/TLWebdesign/Pretty-PhotoRibbon/main/changelog.xml</changelogurl>
 </extension>
