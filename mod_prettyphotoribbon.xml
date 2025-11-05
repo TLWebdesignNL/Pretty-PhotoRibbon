@@ -12,8 +12,7 @@
     <scriptfile>script.php</scriptfile>
     <namespace path="src">TLWeb\Module\Prettyphotoribbon</namespace>
     <files>
-        <filename module="mod_prettyphotoribbon">mod_prettyphotoribbon.php</filename>
-        <folder>services</folder>
+        <folder module="mod_prettyphotoribbon">services</folder>
         <folder>src</folder>
         <folder>tmpl</folder>
         <folder>language</folder>
@@ -167,8 +166,8 @@
     </config>
     <updateservers>
         <server type="extension" priority="2" name="Pretty PhotoRibbon Updates">
-            https://raw.githubusercontent.com/TLWebdesignNL/Pretty-PhotoRibbon/main/updates.xml
+            https://raw.githubusercontent.com/TLWebdesign/Pretty-Photoribbon/main/updates.xml
         </server>
     </updateservers>
-    <changelogurl>https://raw.githubusercontent.com/TLWebdesignNL/Pretty-PhotoRibbon/main/changelog.xml</changelogurl>
+    <changelogurl>https://raw.githubusercontent.com/TLWebdesign/Pretty-PhotoRibbon/main/changelog.xml</changelogurl>
 </extension>
