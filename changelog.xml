@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <extension>mod_prettyphotoribbon</extension>
+    <type>module</type>
+    <name>Pretty PhotoRibbon</name>
     <author>TLWebdesign</author>
-    <items>
+    <version>0.3.0</version>
+    <description>Release history for the Pretty PhotoRibbon site module.</description>
+    <targetplatform name="joomla" version="4.0" />
+    <targetplatform name="joomla" version="5.0" />
+    <releases>
         <release version="0.3.0" date="2024-05-27" status="stable">
             <description>Service provider refactor and autoplay enhancements.</description>
             <changes>
@@ -29,5 +35,5 @@
                 <change type="added">First public version of Pretty PhotoRibbon for Joomla.</change>
             </changes>
         </release>
-    </items>
+    </releases>
 </changelog>
