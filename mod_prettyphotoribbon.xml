@@ -17,8 +17,6 @@
         <folder>src</folder>
         <folder>tmpl</folder>
         <folder>language</folder>
-        <filename>script.php</filename>
-        <filename>changelog.xml</filename>
     </files>
     <media folder="media" destination="mod_prettyphotoribbon">
         <filename>logo.svg</filename>
