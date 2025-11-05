@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelogs>
+    <changelog>
+        <element>mod_prettyphotoribbon</element>
+        <type>module</type>
+        <version>0.3.0</version>
+        <addition>
+            <item>Introduced configurable autoplay behaviour for the ribbon carousel.</item>
+            <item>Published a changelog file for the module package.</item>
+        </addition>
+        <change>
+            <item>Aligned the module dispatcher and helper factories with the TLWeb namespace structure.</item>
+        </change>
+    </changelog>
+    <changelog>
+        <element>mod_prettyphotoribbon</element>
+        <type>module</type>
+        <version>0.2.2</version>
+        <fix>
+            <item>General stability improvements and dependency updates.</item>
+        </fix>
+    </changelog>
+    <changelog>
+        <element>mod_prettyphotoribbon</element>
+        <type>module</type>
+        <version>0.2.1</version>
+        <fix>
+            <item>Resolved issues reported after the initial Joomla 4 release.</item>
+        </fix>
+    </changelog>
+    <changelog>
+        <element>mod_prettyphotoribbon</element>
+        <type>module</type>
+        <version>0.1.0</version>
+        <addition>
+            <item>First public version of Pretty PhotoRibbon for Joomla.</item>
+        </addition>
+    </changelog>
+</changelogs>
