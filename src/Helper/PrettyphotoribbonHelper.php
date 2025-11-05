@@ -1,14 +1,17 @@
 <?php
 
 /**
- * @package     Joomla.Site
+ * @package     TLWeb.Module
  * @subpackage  mod_prettyphotoribbon
  *
  * @copyright   Copyright (C) 2022 TLWebdesign. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace TlwebNamespace\Module\Prettyphotoribbon\Site\Helper;
+namespace TLWeb\Module\Prettyphotoribbon\Site\Helper;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
 
 \defined('_JEXEC') or die;
 
@@ -20,15 +23,33 @@ namespace TlwebNamespace\Module\Prettyphotoribbon\Site\Helper;
 class PrettyphotoribbonHelper
 {
     /**
-     * Retrieve Prettyphotoribbon test
+     * Prepare the ribbon items for rendering.
      *
-     * @param   Registry        $params  The module parameters
-     * @param   CMSApplication  $app     The application
+     * Ensures the media paths are converted into valid URLs and filters out
+     * empty items.
      *
-     * @return  string
+     * @param   array  $ribbonItems  The configured ribbon items.
+     *
+     * @return  array
      */
-    public static function getText()
+    public function prepareRibbonItems(array $ribbonItems): array
     {
-        return 'PrettyphotoribbonHelpertest';
+        $preparedItems = [];
+
+        foreach ($ribbonItems as $ribbonItem)
+        {
+            if (!isset($ribbonItem->ribbonimage) || empty($ribbonItem->ribbonimage))
+            {
+                continue;
+            }
+
+            $image = HTMLHelper::_('cleanImageURL', $ribbonItem->ribbonimage);
+            $image->url = Uri::root() . ltrim($image->url, '/');
+
+            $ribbonItem->ribbonimage = $image;
+            $preparedItems[] = $ribbonItem;
+        }
+
+        return $preparedItems;
     }
 }

@@ -7,14 +7,14 @@
     <authorUrl>https://tlwebdesign.nl</authorUrl>
     <copyright>TLWebdesign.nl</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>0.2.2</version>
+    <version>0.3.0</version>
     <description>MOD_PRETTYPHOTORIBBON_XML_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
-    <namespace path="src">TlwebNamespace\Module\Prettyphotoribbon</namespace>
+    <namespace path="src">TLWeb\Module\Prettyphotoribbon</namespace>
     <files>
-        <filename module="MOD_PRETTYPHOTORIBBON">mod_prettyphotoribbon.php</filename>
         <folder>tmpl</folder>
         <folder>src</folder>
+        <folder>services</folder>
         <folder>language</folder>
         <filename>mod_prettyphotoribbon.xml</filename>
     </files>
@@ -72,6 +72,27 @@
                         <option value="16x9">16x9</option>
                         <option value="21x9">21x9</option>
                     </field>
+                    <field
+                            name="autoplay"
+                            type="radio"
+                            default="0"
+                            label="MOD_PRETTYPHOTORIBBON_FIELD_AUTOPLAY_LABEL"
+                            description="MOD_PRETTYPHOTORIBBON_FIELD_AUTOPLAY_DESC"
+                    >
+                        <option value="1">JYES</option>
+                        <option value="0">JNO</option>
+                    </field>
+                    <field
+                            name="autoplay_interval"
+                            type="number"
+                            default="5000"
+                            filter="integer"
+                            label="MOD_PRETTYPHOTORIBBON_FIELD_AUTOPLAY_INTERVAL_LABEL"
+                            description="MOD_PRETTYPHOTORIBBON_FIELD_AUTOPLAY_INTERVAL_DESC"
+                            showon="autoplay:1"
+                            min="1000"
+                            step="500"
+                    />
                 </fieldset>
                 <fieldset name="images" label="MOD_PRETTYPHOTORIBBON_FIELDSET_IMAGES">
                     <field

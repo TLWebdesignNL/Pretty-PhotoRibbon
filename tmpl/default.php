@@ -17,8 +17,9 @@ HTMLHelper::_('bootstrap.carousel', 'prettyRibbon' . $moduleId);
 HTMLHelper::_('bootstrap.carousel', 'prettyRibbonModalCarousel' . $moduleId);
 HTMLHelper::_('bootstrap.modal', 'prettyRibbonModal' . $moduleId);
 
-$itemsVisibleRatio = (1 / $itemsVisible) * 100;
-$slideCounter = 0;
+$itemsVisibleRatio  = (1 / max(1, $itemsVisible)) * 100;
+$slideCounter       = 0;
+$autoplayInterval   = max(1000, (int) $autoplayInterval);
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseScript(
     'prettyphotoribbon',
@@ -29,7 +30,13 @@ $wa->registerAndUseScript(
 $wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyphotoribbon.min.css', [], [], []);
 ?>
 <div class="prettyRibbonWrapper">
-    <div id="prettyRibbonCarousel<?php echo $moduleId; ?>" class="carousel" data-bs-ride="carousel">
+    <div id="prettyRibbonCarousel<?php echo $moduleId; ?>"
+         class="carousel"
+         data-bs-ride="carousel"
+         data-autoplay="<?php echo (int) $autoplay; ?>"
+         data-autoplay-interval="<?php echo $autoplayInterval; ?>"
+         data-items-visible="<?php echo (int) $itemsVisible; ?>"
+    >
         <div class="carousel-inner" data-bs-toggle="modal" data-bs-target="#prettyRibbonModal<?php echo $moduleId; ?>">
             <?php
             $slideCounter = 0;
