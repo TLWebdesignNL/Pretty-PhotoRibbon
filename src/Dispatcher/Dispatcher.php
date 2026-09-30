@@ -32,20 +32,19 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     private const ITEM_RATIOS = ['1x1', '4x3', '16x9', '21x9'];
 
     /**
-     * Returns the layout data.
+     * Returns the layout data, or false to render nothing when there are no images.
      *
-     * @return  array
+     * @return  array|false
      */
-    protected function getLayoutData(): array
+    protected function getLayoutData(): array|false
     {
         $data   = parent::getLayoutData();
         $params = $data['params'];
 
-        $helper = $this->getHelperFactory()->getHelper('PrettyphotoribbonHelper');
-
-        $data['app']              = Factory::getApplication();
+        $helper    = $this->getHelperFactory()->getHelper('PrettyphotoribbonHelper');
         $itemRatio = (string) $params->get('itemratio', '4x3');
 
+        $data['app']              = Factory::getApplication();
         $data['itemsVisible']     = min(6, max(1, (int) $params->get('itemsvisible', 4)));
         $data['itemRatio']        = \in_array($itemRatio, self::ITEM_RATIOS, true) ? $itemRatio : '4x3';
         $data['ribbonItems']      = (int) $params->get('source', 0) === 1
@@ -54,6 +53,11 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data['moduleId']         = (int) ($data['module']->id ?? 0);
         $data['autoplay']         = (bool) $params->get('autoplay', 0);
         $data['autoplayInterval'] = (int) $params->get('autoplay_interval', 5000);
+
+        if ($data['ribbonItems'] === [])
+        {
+            return false;
+        }
 
         return $data;
     }

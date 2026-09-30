@@ -33,6 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
     var prettyPhotoribbonCarousels = document.querySelectorAll("div[id^=prettyRibbonCarousel]");
 
     for (let i = 0; i < prettyPhotoribbonCarousels.length; i++) {
+        // Skip a ribbon without slides (e.g. a template override that renders an empty carousel)
+        if (!prettyPhotoribbonCarousels[i].querySelector(".carousel-item")) {
+            continue;
+        }
+
         if (window.matchMedia("(min-width: 768px)").matches) {
             let carouselWidth = prettyPhotoribbonCarousels[i].getElementsByClassName("carousel-inner")[0].scrollWidth;
             let itemWidth = prettyPhotoribbonCarousels[i].getElementsByClassName("carousel-item")[0].offsetWidth;
