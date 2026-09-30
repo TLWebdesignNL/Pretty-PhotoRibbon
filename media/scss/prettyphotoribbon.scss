@@ -22,3 +22,33 @@
 .max-vh-100 {
   max-height: calc(100vh - 3.5rem) !important;
 }
+// Ribbon tiles are buttons that open the photo modal
+.prettyRibbonTile {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+
+  img {
+    object-fit: cover;
+  }
+
+  // The ribbon clips overflow, so draw the focus ring inside the tile:
+  // white with a dark inner edge, visible on light and dark photos
+  position: relative;
+
+  &:focus-visible {
+    outline: 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 3px solid #fff;
+      box-shadow: inset 0 0 0 2px #000;
+      pointer-events: none;
+    }
+  }
+}

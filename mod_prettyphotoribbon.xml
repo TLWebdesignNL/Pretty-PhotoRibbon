@@ -35,11 +35,6 @@
                         type="note"
                         description="MOD_PRETTYPHOTORIBBON_FIELD_OWNERINFO_DESC"
                 />
-                <field
-                        name="info"
-                        type="note"
-                        description="MOD_PRETTYPHOTORIBBON_FIELD_INFO_DESC"
-                />
             </fieldset>
             <fieldset name="ribbon" label="MOD_PRETTYPHOTORIBBON_FIELDSET_RIBBON">
                 <fieldset name="settings" label="MOD_PRETTYPHOTORIBBON_FIELDSET_SETTINGS">
@@ -133,6 +128,25 @@
                                     description="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONIMAGE_DESC"
                                     required="false"
                             />
+                            <field
+                                    name="alt"
+                                    type="text"
+                                    label="MOD_PRETTYPHOTORIBBON_FIELD_ALT_LABEL"
+                                    description="MOD_PRETTYPHOTORIBBON_FIELD_ALT_DESC"
+                                    filter="string"
+                                    showon="alt_empty:0"
+                            />
+                            <field
+                                    name="alt_empty"
+                                    type="radio"
+                                    layout="joomla.form.field.radio.switcher"
+                                    default="0"
+                                    label="MOD_PRETTYPHOTORIBBON_FIELD_ALT_EMPTY_LABEL"
+                                    description="MOD_PRETTYPHOTORIBBON_FIELD_ALT_EMPTY_DESC"
+                            >
+                                <option value="0">JNO</option>
+                                <option value="1">JYES</option>
+                            </field>
                         </form>
                     </field>
                 </fieldset>
