@@ -3,43 +3,40 @@
     <changelog>
         <element>mod_prettyphotoribbon</element>
         <type>module</type>
-        <version>0.4.0</version>
+        <version>1.0.0</version>
+        <note>
+            <item>Requires Joomla 5.4 or newer (or Joomla 6) and PHP 8.1 or newer.</item>
+        </note>
         <addition>
-            <item>Alternative text and a "decorative image" option for each ribbon image.</item>
-            <item>Stop/start button for the slideshow when Autoplay is on.</item>
+            <item>Image source option: pick images one by one, or show the images from a folder below /images (max. 30).</item>
+            <item>Alternative text and a "decorative image" option for each image.</item>
+            <item>Stop/start button for the ribbon when Autoplay is on.</item>
+            <item>Arrow keys scroll the ribbon; trackpads and touch screens can swipe it on wide screens.</item>
+            <item>The module class suffix is now applied.</item>
         </addition>
         <change>
-            <item>Ribbon photos can be opened with the keyboard and have an accessible name; focus returns to the photo when the slideshow closes.</item>
+            <item>Ribbon photos are buttons that can be opened with the keyboard and have an accessible name; focus returns to the photo when the slideshow closes.</item>
             <item>Ribbon photos are real images instead of CSS backgrounds, with width/height and lazy loading.</item>
-            <item>Nothing moves unless Autoplay is on; the large slideshow never autoplays. Autoplay also runs on small screens and respects "reduce motion".</item>
-            <item>Slideshow has a name, accessible indicators and translated button labels.</item>
+            <item>Nothing moves unless Autoplay is on; the large slideshow never plays by itself. Autoplay also runs on phones and respects "reduce motion".</item>
+            <item>The slideshow has an accessible name, labelled indicators and translated button labels.</item>
+            <item>The ribbon adapts when the window is resized or a tablet is rotated.</item>
+            <item>Modern installer script; assets are registered in joomla.asset.json.</item>
+            <item>Update server, download and changelog URLs point at TLWebdesignNL/Pretty-PhotoRibbon.</item>
         </change>
         <fix>
+            <item>Ribbon arrows did nothing on screens below 768 px.</item>
+            <item>A JavaScript error on small screens stopped further ribbons on the page from working.</item>
+            <item>The module renders nothing instead of an empty carousel when no images are available.</item>
             <item>Absolute image URLs are no longer prefixed with the site URL.</item>
+            <item>The default aspect ratio (4x3) is now a valid option.</item>
+            <item>The update server offers updates on Joomla 6.</item>
         </fix>
+        <security>
+            <item>Image URLs, alt texts and layout settings are escaped in the output; the ratio and number of visible images are validated.</item>
+        </security>
         <language>
             <item>Dutch description corrected, unused strings removed, spelling fixed.</item>
         </language>
-    </changelog>
-    <changelog>
-        <element>mod_prettyphotoribbon</element>
-        <type>module</type>
-        <version>0.3.1</version>
-        <addition>
-            <item>Image source option: pick images manually or show all images from a folder below /images (max. 30).</item>
-        </addition>
-        <fix>
-            <item>Ribbon arrows now work on screens below 768 px.</item>
-            <item>Fixed a JavaScript error on small screens that stopped further ribbons on the page from working.</item>
-            <item>The module renders nothing instead of an empty carousel when no images are available.</item>
-            <item>Update server now offers updates on Joomla 6.</item>
-        </fix>
-        <security>
-            <item>Image URLs and layout settings are escaped in the output; the item ratio and number of visible items are validated.</item>
-        </security>
-        <change>
-            <item>Update server, download and changelog URLs point at TLWebdesignNL/Pretty-PhotoRibbon.</item>
-        </change>
     </changelog>
     <changelog>
         <element>mod_prettyphotoribbon</element>

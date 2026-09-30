@@ -4,7 +4,7 @@
   "description": "Build scripts for the Pretty PhotoRibbon Joomla module assets",
   "license": "GPL-2.0-or-later",
   "scripts": {
-    "build:css": "sass media/scss/prettyphotoribbon.scss media/css/prettyphotoribbon.css && sass --style=compressed --no-source-map media/scss/prettyphotoribbon.scss media/css/prettyphotoribbon.min.css",
+    "build:css": "sass --no-source-map media/scss/prettyphotoribbon.scss media/css/prettyphotoribbon.css && sass --style=compressed --no-source-map media/scss/prettyphotoribbon.scss media/css/prettyphotoribbon.min.css",
     "build:js": "terser media/js/prettyphotoribbon.js --compress --mangle --module --output media/js/prettyphotoribbon.min.js",
     "build": "npm run build:css && npm run build:js"
   },
