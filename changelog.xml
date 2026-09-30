@@ -3,6 +3,27 @@
     <changelog>
         <element>mod_prettyphotoribbon</element>
         <type>module</type>
+        <version>0.4.0</version>
+        <addition>
+            <item>Alternative text and a "decorative image" option for each ribbon image.</item>
+            <item>Stop/start button for the slideshow when Autoplay is on.</item>
+        </addition>
+        <change>
+            <item>Ribbon photos can be opened with the keyboard and have an accessible name; focus returns to the photo when the slideshow closes.</item>
+            <item>Ribbon photos are real images instead of CSS backgrounds, with width/height and lazy loading.</item>
+            <item>Nothing moves unless Autoplay is on; the large slideshow never autoplays. Autoplay also runs on small screens and respects "reduce motion".</item>
+            <item>Slideshow has a name, accessible indicators and translated button labels.</item>
+        </change>
+        <fix>
+            <item>Absolute image URLs are no longer prefixed with the site URL.</item>
+        </fix>
+        <language>
+            <item>Dutch description corrected, unused strings removed, spelling fixed.</item>
+        </language>
+    </changelog>
+    <changelog>
+        <element>mod_prettyphotoribbon</element>
+        <type>module</type>
         <version>0.3.1</version>
         <addition>
             <item>Image source option: pick images manually or show all images from a folder below /images (max. 30).</item>
