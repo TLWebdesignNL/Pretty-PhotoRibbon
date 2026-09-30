@@ -25,6 +25,13 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     use HelperFactoryAwareTrait;
 
     /**
+     * Ratios the layout supports (Bootstrap .ratio-* classes).
+     *
+     * @var  string[]
+     */
+    private const ITEM_RATIOS = ['1x1', '4x3', '16x9', '21x9'];
+
+    /**
      * Returns the layout data.
      *
      * @return  array
@@ -37,12 +44,14 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $helper = $this->getHelperFactory()->getHelper('PrettyphotoribbonHelper');
 
         $data['app']              = Factory::getApplication();
-        $data['itemsVisible']     = (int) $params->get('itemsvisible', 4);
-        $data['itemRatio']        = (string) $params->get('itemratio', '4x3');
+        $itemRatio = (string) $params->get('itemratio', '4x3');
+
+        $data['itemsVisible']     = min(6, max(1, (int) $params->get('itemsvisible', 4)));
+        $data['itemRatio']        = \in_array($itemRatio, self::ITEM_RATIOS, true) ? $itemRatio : '4x3';
         $data['ribbonItems']      = (int) $params->get('source', 0) === 1
             ? $helper->getFolderItems((string) $params->get('folder', ''))
             : $helper->prepareRibbonItems((array) $params->get('ribbonitems', []));
-        $data['moduleId']         = $data['module']->id ?? 0;
+        $data['moduleId']         = (int) ($data['module']->id ?? 0);
         $data['autoplay']         = (bool) $params->get('autoplay', 0);
         $data['autoplayInterval'] = (int) $params->get('autoplay_interval', 5000);
 

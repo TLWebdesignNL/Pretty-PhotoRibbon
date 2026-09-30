@@ -17,7 +17,7 @@ HTMLHelper::_('bootstrap.carousel', '#prettyRibbonCarousel' . $moduleId);
 HTMLHelper::_('bootstrap.carousel', '#prettyRibbonModalCarousel' . $moduleId);
 HTMLHelper::_('bootstrap.modal', '#prettyRibbonModal' . $moduleId);
 
-$itemsVisibleRatio  = (1 / max(1, $itemsVisible)) * 100;
+$itemsVisibleRatio  = round(100 / max(1, $itemsVisible), 4);
 $slideCounter       = 0;
 $autoplayInterval   = max(1000, (int) $autoplayInterval);
 $wa = $app->getDocument()->getWebAssetManager();
@@ -28,6 +28,14 @@ $wa->registerAndUseScript(
     ['type' => 'module']
 );
 $wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyphotoribbon.min.css', [], [], []);
+
+// Escape for an HTML attribute.
+$escape = static fn ($value): string => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+
+// Escape a URL for a double-quoted CSS url("...") inside an HTML attribute: CSS first, then HTML.
+$escapeCssUrl = static fn (string $url): string => $escape(
+    str_replace(['\\', '"', "\n", "\r", "\f"], ['\\\\', '\\"', '\\a ', '\\d ', '\\c '], $url)
+);
 ?>
 <div class="prettyRibbonWrapper">
     <div id="prettyRibbonCarousel<?php echo $moduleId; ?>"
@@ -46,11 +54,10 @@ $wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyph
                         class="carousel-item <?php echo ($slideCounter == 0) ? 'active' : ''; ?>"
                         data-bs-target="#prettyRibbonModalCarousel<?php echo $moduleId; ?>"
                         data-bs-slide-to="<?php echo $slideCounter; ?>"
-                        style="flex: 0 0 <?php echo $itemsVisibleRatio;?>%;
-"
+                        style="flex: 0 0 <?php echo $escape($itemsVisibleRatio); ?>%;"
                 >
-                    <div class="ratio ratio-<?php echo $itemRatio; ?> w-100"
-                         style="background:url('<?php echo $r->ribbonimage->url; ?>') center center / cover no-repeat;">
+                    <div class="ratio ratio-<?php echo $escape($itemRatio); ?> w-100"
+                         style="background:url(&quot;<?php echo $escapeCssUrl($r->ribbonimage->url); ?>&quot;) center center / cover no-repeat;">
                     </div>
              </div>
                 <?php
@@ -108,7 +115,7 @@ $wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyph
                             ?>
                             <div class="carousel-item <?php echo ($slideCounter == 0) ? 'active' : ''; ?>">
                                 <img class="d-block w-auto mx-auto max-vh-100 mh-100"
-                                     src="<?php echo $r->ribbonimage->url; ?>"
+                                     src="<?php echo $escape($r->ribbonimage->url); ?>"
                                 >
                             </div>
                             <?php
