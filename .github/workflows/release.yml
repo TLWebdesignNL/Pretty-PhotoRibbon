@@ -1,0 +1,114 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'V*'
+
+jobs:
+  update-xml:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract version and build download URL
+        id: vars
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#V}"
+          ZIP_URL="https://github.com/${{ github.repository }}/archive/refs/tags/${TAG}.zip"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "zip_url=${ZIP_URL}" >> $GITHUB_OUTPUT
+
+      - name: Download release zip and compute SHA256
+        id: sha256
+        run: |
+          curl -fL -o release.zip "${{ steps.vars.outputs.zip_url }}"
+          SHA=$(sha256sum release.zip | awk '{print $1}')
+          echo "value=${SHA}" >> $GITHUB_OUTPUT
+
+      - name: Append entry to updates.xml
+        env:
+          VERSION: ${{ steps.vars.outputs.version }}
+          TAG: ${{ steps.vars.outputs.tag }}
+          SHA256: ${{ steps.sha256.outputs.value }}
+        run: |
+          python3 - <<'EOF'
+          import re, os
+
+          version = os.environ["VERSION"]
+          tag     = os.environ["TAG"]
+          sha256  = os.environ["SHA256"]
+          repo    = os.environ["GITHUB_REPOSITORY"]
+
+          with open("updates.xml", "r") as f:
+              content = f.read()
+
+          if f"<version>{version}</version>" in content:
+              print(f"Version {version} already exists, skipping.")
+              raise SystemExit(0)
+
+          # Extract the last <update> block as a template
+          blocks = re.findall(r'<update>.*?</update>', content, re.DOTALL)
+          if not blocks:
+              raise SystemExit("No existing <update> block found to use as template.")
+          last = blocks[-1]
+
+          # Get old tag from last block's download URL to swap it out
+          old_tag_match = re.search(r'archive/refs/tags/([^\s<"]+)', last)
+          if old_tag_match:
+              old_tag = old_tag_match.group(1).rstrip('.zip')
+              new_block = last.replace(
+                  f"archive/refs/tags/{old_tag}",
+                  f"archive/refs/tags/{tag}"
+              )
+          else:
+              new_block = re.sub(
+                  r'(archive/refs/tags/)[^\s<"]+',
+                  rf'\g<1>{tag}.zip',
+                  last
+              )
+
+          # Update <version> tag
+          old_version = re.search(r'<version>([^<]+)</version>', last).group(1).strip()
+          new_block = new_block.replace(
+              f'<version>{old_version}</version>',
+              f'<version>{version}</version>'
+          )
+
+          # Update version in <name> if present
+          new_block = re.sub(
+              r'(<name>[^<]*?)' + re.escape(old_version) + r'([^<]*</name>)',
+              lambda m: m.group(0).replace(old_version, version, 1),
+              new_block
+          )
+
+          # Update sha256
+          new_block = re.sub(r'<sha256>[a-f0-9]+</sha256>', f'<sha256>{sha256}</sha256>', new_block)
+
+          # Detect indentation of the last block and match it
+          indent = re.match(r'(\s*)', last).group(1)
+          new_block = indent + new_block.lstrip()
+
+          content = content.replace('</updates>', new_block + '\n</updates>')
+          with open("updates.xml", "w") as f:
+              f.write(content)
+          print(f"Added version {version} (sha256: {sha256})")
+          EOF
+
+      - name: Commit and push updated updates.xml
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add updates.xml
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "chore: add updates.xml entry for ${{ steps.vars.outputs.tag }}"
+          git push origin main

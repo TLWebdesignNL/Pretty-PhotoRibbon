@@ -39,7 +39,9 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data['app']              = Factory::getApplication();
         $data['itemsVisible']     = (int) $params->get('itemsvisible', 4);
         $data['itemRatio']        = (string) $params->get('itemratio', '4x3');
-        $data['ribbonItems']      = $helper->prepareRibbonItems((array) $params->get('ribbonitems', []));
+        $data['ribbonItems']      = (int) $params->get('source', 0) === 1
+            ? $helper->getFolderItems((string) $params->get('folder', ''))
+            : $helper->prepareRibbonItems((array) $params->get('ribbonitems', []));
         $data['moduleId']         = $data['module']->id ?? 0;
         $data['autoplay']         = (bool) $params->get('autoplay', 0);
         $data['autoplayInterval'] = (int) $params->get('autoplay_interval', 5000);
