@@ -1,7 +1,6 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "mod_prettyphotoribbon",
-  "version": "0.5.0",
   "description": "Pretty PhotoRibbon module assets",
   "license": "GPL-2.0-or-later",
   "assets": [
