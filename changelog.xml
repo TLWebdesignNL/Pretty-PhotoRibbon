@@ -3,12 +3,33 @@
     <changelog>
         <element>mod_prettyphotoribbon</element>
         <type>module</type>
+        <version>0.3.1</version>
+        <addition>
+            <item>Image source option: pick images manually or show all images from a folder below /images (max. 30).</item>
+        </addition>
+        <fix>
+            <item>Ribbon arrows now work on screens below 768 px.</item>
+            <item>Fixed a JavaScript error on small screens that stopped further ribbons on the page from working.</item>
+            <item>The module renders nothing instead of an empty carousel when no images are available.</item>
+            <item>Update server now offers updates on Joomla 6.</item>
+        </fix>
+        <security>
+            <item>Image URLs and layout settings are escaped in the output; the item ratio and number of visible items are validated.</item>
+        </security>
+        <change>
+            <item>Update server, download and changelog URLs point at TLWebdesignNL/Pretty-PhotoRibbon.</item>
+        </change>
+    </changelog>
+    <changelog>
+        <element>mod_prettyphotoribbon</element>
+        <type>module</type>
         <version>0.3.0</version>
         <addition>
             <item>Introduced configurable autoplay behaviour for the ribbon carousel.</item>
             <item>Published a changelog file for the module package.</item>
         </addition>
         <change>
+            <item>Raised the maximum number of ribbon images from 20 to 30.</item>
             <item>Aligned the module dispatcher and helper factories with the TLWeb namespace structure.</item>
         </change>
     </changelog>
