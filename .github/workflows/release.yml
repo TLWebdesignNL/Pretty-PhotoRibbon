@@ -5,6 +5,10 @@ on:
     tags:
       - 'V*'
 
+env:
+  # Written into every new updates.xml entry; Joomla matches it with preg_match('/^' . version . '/', JVERSION)
+  TARGET_PLATFORM: '(4|5|6)\..*'
+
 jobs:
   update-xml:
     runs-on: ubuntu-latest
@@ -33,21 +37,28 @@ jobs:
         run: |
           curl -fL -o release.zip "${{ steps.vars.outputs.zip_url }}"
           SHA=$(sha256sum release.zip | awk '{print $1}')
+          if ! [[ "${SHA}" =~ ^[a-f0-9]{64}$ ]]; then
+            echo "::error::Could not compute a SHA-256 for ${{ steps.vars.outputs.zip_url }}"
+            exit 1
+          fi
           echo "value=${SHA}" >> $GITHUB_OUTPUT
 
       - name: Append entry to updates.xml
         env:
           VERSION: ${{ steps.vars.outputs.version }}
-          TAG: ${{ steps.vars.outputs.tag }}
+          ZIP_URL: ${{ steps.vars.outputs.zip_url }}
           SHA256: ${{ steps.sha256.outputs.value }}
         run: |
           python3 - <<'EOF'
           import re, os
 
-          version = os.environ["VERSION"]
-          tag     = os.environ["TAG"]
-          sha256  = os.environ["SHA256"]
-          repo    = os.environ["GITHUB_REPOSITORY"]
+          version  = os.environ["VERSION"]
+          zip_url  = os.environ["ZIP_URL"]
+          sha256   = os.environ["SHA256"]
+          platform = os.environ["TARGET_PLATFORM"]
+
+          if not re.fullmatch(r"[a-f0-9]{64}", sha256):
+              raise SystemExit(f"Invalid SHA-256: {sha256!r}")
 
           with open("updates.xml", "r") as f:
               content = f.read()
@@ -62,20 +73,13 @@ jobs:
               raise SystemExit("No existing <update> block found to use as template.")
           last = blocks[-1]
 
-          # Get old tag from last block's download URL to swap it out
-          old_tag_match = re.search(r'archive/refs/tags/([^\s<"]+)', last)
-          if old_tag_match:
-              old_tag = old_tag_match.group(1).rstrip('.zip')
-              new_block = last.replace(
-                  f"archive/refs/tags/{old_tag}",
-                  f"archive/refs/tags/{tag}"
-              )
-          else:
-              new_block = re.sub(
-                  r'(archive/refs/tags/)[^\s<"]+',
-                  rf'\g<1>{tag}.zip',
-                  last
-              )
+          # Point the download at this repository and tag
+          new_block = re.sub(
+              r'(<downloadurl[^>]*>).*?(</downloadurl>)',
+              lambda m: f"{m.group(1)}\n                {zip_url}\n            {m.group(2)}",
+              last,
+              flags=re.DOTALL
+          )
 
           # Update <version> tag
           old_version = re.search(r'<version>([^<]+)</version>', last).group(1).strip()
@@ -91,11 +95,18 @@ jobs:
               new_block
           )
 
-          # Update sha256
-          new_block = re.sub(r'<sha256>[a-f0-9]+</sha256>', f'<sha256>{sha256}</sha256>', new_block)
+          # Update sha256 (also when the template's hash is empty)
+          new_block = re.sub(r'<sha256>[^<]*</sha256>', f'<sha256>{sha256}</sha256>', new_block)
+
+          # Write targetplatform explicitly instead of inheriting it
+          new_block = re.sub(
+              r'<targetplatform[^>]*/>',
+              lambda m: f'<targetplatform name="joomla" version="{platform}"/>',
+              new_block
+          )
 
           # Detect indentation of the last block and match it
-          indent = re.match(r'(\s*)', last).group(1)
+          indent = re.findall(r'^([ \t]*)<update>', content, re.MULTILINE)[-1]
           new_block = indent + new_block.lstrip()
 
           content = content.replace('</updates>', new_block + '\n</updates>')
