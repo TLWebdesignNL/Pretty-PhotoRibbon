@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         } else {
-            prettyPhotoribbonCarousels[i].addClass("slide");
+            prettyPhotoribbonCarousels[i].classList.add("slide");
         }
     }
 });

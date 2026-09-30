@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('bootstrap.carousel', 'prettyRibbon' . $moduleId);
-HTMLHelper::_('bootstrap.carousel', 'prettyRibbonModalCarousel' . $moduleId);
-HTMLHelper::_('bootstrap.modal', 'prettyRibbonModal' . $moduleId);
+HTMLHelper::_('bootstrap.carousel', '#prettyRibbonCarousel' . $moduleId);
+HTMLHelper::_('bootstrap.carousel', '#prettyRibbonModalCarousel' . $moduleId);
+HTMLHelper::_('bootstrap.modal', '#prettyRibbonModal' . $moduleId);
 
 $itemsVisibleRatio  = (1 / max(1, $itemsVisible)) * 100;
 $slideCounter       = 0;
@@ -61,7 +61,7 @@ $wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyph
         <button
                 class="carousel-control-prev"
                 type="button"
-                data-bs-target="#prettyRibbon<?php echo $moduleId; ?>"
+                data-bs-target="#prettyRibbonCarousel<?php echo $moduleId; ?>"
                 data-bs-slide="prev"
         >
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -69,7 +69,7 @@ $wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyph
         </button>
         <button class="carousel-control-next"
                 type="button"
-                data-bs-target="#prettyRibbon<?php echo $moduleId; ?>"
+                data-bs-target="#prettyRibbonCarousel<?php echo $moduleId; ?>"
                 data-bs-slide="next"
         >
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
