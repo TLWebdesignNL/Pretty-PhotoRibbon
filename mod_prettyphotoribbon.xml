@@ -18,6 +18,7 @@
         <folder>language</folder>
     </files>
     <media folder="media" destination="mod_prettyphotoribbon">
+        <filename>joomla.asset.json</filename>
         <filename>logo.svg</filename>
         <folder>css</folder>
         <folder>js</folder>
@@ -43,10 +44,11 @@
                             type="list"
                             default="4"
                             required="true"
+                            validate="options"
                             label="MOD_PRETTYPHOTORIBBON_FIELD_ITEMSVISIBLE_LABEL"
                             description="MOD_PRETTYPHOTORIBBON_FIELD_ITEMSVISIBLE_DESC"
                     >
-                        <option value="1" checked="true">1</option>
+                        <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
@@ -56,12 +58,13 @@
                     <field
                             name="itemratio"
                             type="list"
-                            default="4"
+                            default="4x3"
                             required="true"
+                            validate="options"
                             label="MOD_PRETTYPHOTORIBBON_FIELD_ITEMRATIO_LABEL"
                             description="MOD_PRETTYPHOTORIBBON_FIELD_ITEMRATIO_DESC"
                     >
-                        <option value="1x1" checked="true">1x1</option>
+                        <option value="1x1">1x1</option>
                         <option value="4x3">4x3</option>
                         <option value="16x9">16x9</option>
                         <option value="21x9">21x9</option>

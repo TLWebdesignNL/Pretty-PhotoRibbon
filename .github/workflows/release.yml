@@ -6,8 +6,9 @@ on:
       - 'V*'
 
 env:
-  # Written into every new updates.xml entry; Joomla matches it with preg_match('/^' . version . '/', JVERSION)
-  TARGET_PLATFORM: '(4|5|6)\..*'
+  # Written into every new updates.xml entry; Joomla matches it with preg_match('/^' . version . '/', JVERSION).
+  # Joomla 5.4+ and 6.x, the minimum enforced by script.php.
+  TARGET_PLATFORM: '(5\.[4-9]|6)\..*'
 
 jobs:
   update-xml:
