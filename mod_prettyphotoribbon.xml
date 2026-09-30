@@ -18,6 +18,7 @@
         <folder>language</folder>
     </files>
     <media folder="media" destination="mod_prettyphotoribbon">
+        <filename>joomla.asset.json</filename>
         <filename>logo.svg</filename>
         <folder>css</folder>
         <folder>js</folder>

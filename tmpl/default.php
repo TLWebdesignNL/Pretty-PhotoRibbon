@@ -8,26 +8,15 @@
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-HTMLHelper::_('bootstrap.carousel', '#prettyRibbonCarousel' . $moduleId);
-HTMLHelper::_('bootstrap.carousel', '#prettyRibbonModalCarousel' . $moduleId);
-HTMLHelper::_('bootstrap.modal', '#prettyRibbonModal' . $moduleId);
 
 $itemsVisibleRatio  = round(100 / max(1, $itemsVisible), 4);
 $itemCount          = count($ribbonItems);
 $autoplayInterval   = max(1000, (int) $autoplayInterval);
-$wa = $app->getDocument()->getWebAssetManager();
-$wa->registerAndUseScript(
-    'prettyphotoribbon',
-    'mod_prettyphotoribbon/prettyphotoribbon.min.js',
-    [],
-    ['type' => 'module']
-);
-$wa->registerAndUseStyle('prettyphotoribboncss', 'mod_prettyphotoribbon/prettyphotoribbon.min.css', [], [], []);
+
+// Assets and Bootstrap setup are loaded by the Dispatcher.
 
 // Escape for an HTML attribute.
 $escape = static fn ($value): string => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');

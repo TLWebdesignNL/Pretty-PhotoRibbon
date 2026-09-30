@@ -1,0 +1,26 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "mod_prettyphotoribbon",
+  "version": "0.5.0",
+  "description": "Pretty PhotoRibbon module assets",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "mod_prettyphotoribbon.ribbon",
+      "type": "script",
+      "uri": "mod_prettyphotoribbon/prettyphotoribbon.js",
+      "dependencies": [
+        "bootstrap.carousel",
+        "bootstrap.modal"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "mod_prettyphotoribbon.ribbon",
+      "type": "style",
+      "uri": "mod_prettyphotoribbon/prettyphotoribbon.css"
+    }
+  ]
+}
