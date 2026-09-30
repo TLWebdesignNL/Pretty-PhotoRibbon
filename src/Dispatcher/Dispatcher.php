@@ -53,6 +53,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data['moduleId']         = (int) ($data['module']->id ?? 0);
         $data['autoplay']         = (bool) $params->get('autoplay', 0);
         $data['autoplayInterval'] = (int) $params->get('autoplay_interval', 5000);
+        $data['moduleclassSfx']   = trim((string) $params->get('moduleclass_sfx', ''));
 
         if ($data['ribbonItems'] === [])
         {

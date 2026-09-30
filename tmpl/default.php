@@ -37,7 +37,7 @@ $sizeAttributes = static fn (object $image): string => ($image->width ?? 0) > 0 
     ? ' width="' . (int) $image->width . '" height="' . (int) $image->height . '"'
     : '';
 ?>
-<div class="prettyRibbonWrapper">
+<div class="prettyRibbonWrapper<?php echo $moduleclassSfx !== '' ? ' ' . $escape($moduleclassSfx) : ''; ?>">
     <div id="prettyRibbonCarousel<?php echo $moduleId; ?>"
          class="carousel"
          data-autoplay="<?php echo (int) $autoplay; ?>"
