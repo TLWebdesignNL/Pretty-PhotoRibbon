@@ -3,6 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 document.addEventListener("DOMContentLoaded", () => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
     // SMOOTH SCROLLING FALLBACK FOR SAFARI BROWSERS
     function smoothHorizontalScrolling(e, time, amount, start) {
         var eAmt = amount / 100;
@@ -30,136 +32,198 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    var prettyPhotoribbonCarousels = document.querySelectorAll("div[id^=prettyRibbonCarousel]");
-
-    for (let i = 0; i < prettyPhotoribbonCarousels.length; i++) {
-        // Skip a ribbon without slides (e.g. a template override that renders an empty carousel)
-        if (!prettyPhotoribbonCarousels[i].querySelector(".carousel-item")) {
-            continue;
+    // Scroll a ribbon from one position to another, without animation when the user prefers reduced motion
+    function scrollRibbon(container, from, to) {
+        if (reducedMotion.matches) {
+            container.scrollLeft = to;
+        } else if (isSafari) {
+            smoothHorizontalScrolling(container, 600, to - from, from);
+        } else {
+            container.scrollTo({
+                left: to,
+                top: 0,
+                behavior: "smooth"
+            });
         }
+    }
 
-        if (window.matchMedia("(min-width: 768px)").matches) {
-            let carouselWidth = prettyPhotoribbonCarousels[i].getElementsByClassName("carousel-inner")[0].scrollWidth;
-            let itemWidth = prettyPhotoribbonCarousels[i].getElementsByClassName("carousel-item")[0].offsetWidth;
-            let scrollPosition = 0;
-            let visibleItems = parseInt(prettyPhotoribbonCarousels[i].dataset.itemsVisible, 10);
+    // Open the modal slideshow at the photo whose ribbon tile was activated
+    document.querySelectorAll(".modal[id^=prettyRibbonModal]").forEach((modal) => {
+        modal.addEventListener("show.bs.modal", (event) => {
+            const trigger = event.relatedTarget;
 
-            if (!visibleItems || visibleItems < 1) {
-                visibleItems = 4;
+            if (!trigger || trigger.dataset.photoIndex === undefined) {
+                return;
             }
 
-            let maxScroll = Math.max(0, carouselWidth - itemWidth * visibleItems);
+            const index = parseInt(trigger.dataset.photoIndex, 10);
 
-            let nextControl = prettyPhotoribbonCarousels[i].querySelector(".carousel-control-next");
-            let prevControl = prettyPhotoribbonCarousels[i].querySelector(".carousel-control-prev");
+            modal.querySelectorAll(".carousel-inner > .carousel-item").forEach((item, i) => {
+                item.classList.toggle("active", i === index);
+            });
+
+            modal.querySelectorAll(".carousel-indicators > [data-bs-slide-to]").forEach((indicator, i) => {
+                indicator.classList.toggle("active", i === index);
+
+                if (i === index) {
+                    indicator.setAttribute("aria-current", "true");
+                } else {
+                    indicator.removeAttribute("aria-current");
+                }
+            });
+        });
+    });
+
+    document.querySelectorAll("div[id^=prettyRibbonCarousel]").forEach((carousel) => {
+        const inner = carousel.querySelector(".carousel-inner");
+        const items = Array.from(carousel.querySelectorAll(".carousel-item"));
+
+        // Skip a ribbon without slides (e.g. a template override that renders an empty carousel)
+        if (!inner || items.length === 0) {
+            return;
+        }
+
+        const nextControl = carousel.querySelector(".carousel-control-next");
+        const prevControl = carousel.querySelector(".carousel-control-prev");
+        const isWide = window.matchMedia("(min-width: 768px)").matches;
+        let visibleItems = parseInt(carousel.dataset.itemsVisible, 10);
+
+        if (!visibleItems || visibleItems < 1) {
+            visibleItems = 4;
+        }
+
+        let scrollPosition = 0;
+        let itemWidth = 0;
+        let maxScroll = 0;
+
+        if (isWide) {
+            itemWidth = items[0].offsetWidth;
+            maxScroll = Math.max(0, inner.scrollWidth - itemWidth * visibleItems);
+
+            const goTo = (target) => {
+                target = Math.min(Math.max(0, target), maxScroll);
+                scrollRibbon(inner, scrollPosition, target);
+                scrollPosition = target;
+            };
 
             if (nextControl) {
-                nextControl.addEventListener("click", function () {
+                nextControl.addEventListener("click", () => {
                     if (scrollPosition < maxScroll) {
-                        let temp = scrollPosition;
-                        scrollPosition += itemWidth;
-                        if (isSafari) {
-                            smoothHorizontalScrolling(prettyPhotoribbonCarousels[i].children[0], 600, itemWidth, temp);
-                            console.log("scripted scrolling");
-                        } else {
-                            prettyPhotoribbonCarousels[i].children[0].scrollBy({
-                                left: itemWidth,
-                                top: 0,
-                                behavior: "smooth"
-                            });
-                            console.log("native scrolling");
-                        }
+                        goTo(scrollPosition + itemWidth);
                     }
                 });
             }
 
             if (prevControl) {
-                prevControl.addEventListener("click", function () {
+                prevControl.addEventListener("click", () => {
                     if (scrollPosition > 0) {
-                        let temp = scrollPosition;
-                        scrollPosition -= itemWidth;
-
-                        if (isSafari) {
-                            smoothHorizontalScrolling(prettyPhotoribbonCarousels[i].children[0], 600, scrollPosition - temp, temp);
-                            console.log("scripted scrolling");
-                        } else {
-                            prettyPhotoribbonCarousels[i].children[0].scrollBy({
-                                left: -itemWidth,
-                                top: 0,
-                                behavior: "smooth"
-                            });
-                            console.log("native scrolling");
-                        }
+                        goTo(scrollPosition - itemWidth);
                     }
                 });
             }
 
-            if (prettyPhotoribbonCarousels[i].dataset.autoplay === "1" && maxScroll > 0) {
-                let interval = parseInt(prettyPhotoribbonCarousels[i].dataset.autoplayInterval, 10);
+            // Keep a keyboard-focused tile in view and the tracked position in sync
+            inner.addEventListener("focusin", (event) => {
+                const item = event.target.closest(".carousel-item");
+                const index = items.indexOf(item);
 
-                if (!interval || interval < 1000) {
-                    interval = 5000;
+                if (index < 0 || itemWidth === 0) {
+                    return;
                 }
 
-                const scrollContainer = prettyPhotoribbonCarousels[i].children[0];
-                let autoplayTimer = null;
+                const first = Math.round(scrollPosition / itemWidth);
+                let target = scrollPosition;
 
-                const stopAutoplay = function () {
-                    if (autoplayTimer) {
-                        window.clearInterval(autoplayTimer);
-                        autoplayTimer = null;
-                    }
-                };
+                if (index < first) {
+                    target = index * itemWidth;
+                } else if (index > first + visibleItems - 1) {
+                    target = (index - visibleItems + 1) * itemWidth;
+                }
 
-                const runAutoplay = function () {
-                    if (scrollPosition >= maxScroll && scrollContainer) {
-                        if (isSafari) {
-                            smoothHorizontalScrolling(scrollContainer, 600, -scrollPosition, scrollPosition);
-                        } else {
-                            scrollContainer.scrollTo({
-                                left: 0,
-                                top: 0,
-                                behavior: "smooth"
-                            });
-                        }
+                target = Math.min(Math.max(0, target), maxScroll);
+                inner.scrollLeft = target;
+                scrollPosition = target;
+            });
+        } else {
+            carousel.classList.add("slide");
+        }
 
-                        scrollPosition = 0;
+        // AUTOPLAY: only when enabled, there is something to advance, and the user has not asked for reduced motion
+        const toggle = carousel.parentElement.querySelector(".prettyRibbonToggle");
+        const canAdvance = isWide ? maxScroll > 0 : items.length > 1;
 
-                        return;
-                    }
+        if (carousel.dataset.autoplay !== "1" || !canAdvance || reducedMotion.matches) {
+            return;
+        }
 
-                    if (nextControl) {
-                        nextControl.click();
-                    }
-                };
+        let interval = parseInt(carousel.dataset.autoplayInterval, 10);
 
-                const restartAutoplay = function () {
-                    stopAutoplay();
-                    autoplayTimer = window.setInterval(runAutoplay, interval);
-                };
+        if (!interval || interval < 1000) {
+            interval = 5000;
+        }
+
+        let autoplayTimer = null;
+        let stoppedByUser = false;
+
+        const stopAutoplay = () => {
+            if (autoplayTimer) {
+                window.clearInterval(autoplayTimer);
+                autoplayTimer = null;
+            }
+        };
+
+        const runAutoplay = () => {
+            if (isWide && scrollPosition >= maxScroll) {
+                scrollRibbon(inner, scrollPosition, 0);
+                scrollPosition = 0;
+
+                return;
+            }
+
+            if (nextControl) {
+                nextControl.click();
+            }
+        };
+
+        const restartAutoplay = () => {
+            stopAutoplay();
+
+            if (!stoppedByUser) {
+                autoplayTimer = window.setInterval(runAutoplay, interval);
+            }
+        };
+
+        carousel.addEventListener("mouseenter", stopAutoplay);
+        carousel.addEventListener("mouseleave", restartAutoplay);
+        carousel.addEventListener("focusin", stopAutoplay);
+        carousel.addEventListener("focusout", restartAutoplay);
+
+        if (nextControl) {
+            nextControl.addEventListener("click", restartAutoplay);
+        }
+
+        if (prevControl) {
+            prevControl.addEventListener("click", restartAutoplay);
+        }
+
+        // Visible stop/start button (WCAG 2.2.2); its label switches between "Stop" and "Start"
+        if (toggle) {
+            const stopLabel = toggle.querySelector(".prettyRibbonToggle-stop");
+            const startLabel = toggle.querySelector(".prettyRibbonToggle-start");
+
+            toggle.hidden = false;
+            toggle.addEventListener("click", () => {
+                stoppedByUser = !stoppedByUser;
+
+                if (stopLabel && startLabel) {
+                    stopLabel.hidden = stoppedByUser;
+                    startLabel.hidden = !stoppedByUser;
+                }
 
                 restartAutoplay();
-
-                prettyPhotoribbonCarousels[i].addEventListener("mouseenter", function () {
-                    stopAutoplay();
-                });
-
-                prettyPhotoribbonCarousels[i].addEventListener("mouseleave", restartAutoplay);
-                prettyPhotoribbonCarousels[i].addEventListener("focusin", function () {
-                    stopAutoplay();
-                });
-                prettyPhotoribbonCarousels[i].addEventListener("focusout", restartAutoplay);
-
-                if (nextControl) {
-                    nextControl.addEventListener("click", restartAutoplay);
-                }
-
-                if (prevControl) {
-                    prevControl.addEventListener("click", restartAutoplay);
-                }
-            }
-        } else {
-            prettyPhotoribbonCarousels[i].classList.add("slide");
+            });
         }
-    }
+
+        restartAutoplay();
+    });
 });

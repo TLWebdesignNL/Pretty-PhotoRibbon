@@ -7,7 +7,7 @@
     <authorUrl>https://tlwebdesign.nl</authorUrl>
     <copyright>TLWebdesign.nl</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>0.3.1</version>
+    <version>0.4.0</version>
     <description>MOD_PRETTYPHOTORIBBON_XML_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
     <namespace path="src">TLWeb\Module\Prettyphotoribbon</namespace>
@@ -34,11 +34,6 @@
                         name="ownerinfo"
                         type="note"
                         description="MOD_PRETTYPHOTORIBBON_FIELD_OWNERINFO_DESC"
-                />
-                <field
-                        name="info"
-                        type="note"
-                        description="MOD_PRETTYPHOTORIBBON_FIELD_INFO_DESC"
                 />
             </fieldset>
             <fieldset name="ribbon" label="MOD_PRETTYPHOTORIBBON_FIELDSET_RIBBON">
@@ -133,6 +128,25 @@
                                     description="MOD_PRETTYPHOTORIBBON_FIELD_RIBBONIMAGE_DESC"
                                     required="false"
                             />
+                            <field
+                                    name="alt"
+                                    type="text"
+                                    label="MOD_PRETTYPHOTORIBBON_FIELD_ALT_LABEL"
+                                    description="MOD_PRETTYPHOTORIBBON_FIELD_ALT_DESC"
+                                    filter="string"
+                                    showon="alt_empty:0"
+                            />
+                            <field
+                                    name="alt_empty"
+                                    type="radio"
+                                    layout="joomla.form.field.radio.switcher"
+                                    default="0"
+                                    label="MOD_PRETTYPHOTORIBBON_FIELD_ALT_EMPTY_LABEL"
+                                    description="MOD_PRETTYPHOTORIBBON_FIELD_ALT_EMPTY_DESC"
+                            >
+                                <option value="0">JNO</option>
+                                <option value="1">JYES</option>
+                            </field>
                         </form>
                     </field>
                 </fieldset>

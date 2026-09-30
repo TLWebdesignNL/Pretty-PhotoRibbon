@@ -72,12 +72,14 @@ class PrettyphotoribbonHelper
 
         foreach (\array_slice($files, 0, self::MAX_FOLDER_ITEMS) as $file)
         {
-            $image      = new \stdClass();
-            $image->url = $folderUrl . rawurlencode($file);
-
-            $item              = new \stdClass();
-            $item->ribbonimage = $image;
-            $items[]           = $item;
+            // Folder images have no alt text, so they are treated as decorative.
+            $size    = @getimagesize($folderPath . '/' . $file);
+            $items[] = $this->createItem(
+                $folderUrl . rawurlencode($file),
+                $size[0] ?? 0,
+                $size[1] ?? 0,
+                ''
+            );
         }
 
         return $items;
@@ -86,8 +88,8 @@ class PrettyphotoribbonHelper
     /**
      * Prepare the ribbon items for rendering.
      *
-     * Ensures the media paths are converted into valid URLs and filters out
-     * empty items.
+     * Ensures the media paths are converted into valid URLs, resolves the
+     * alt text (empty for decorative images) and filters out empty items.
      *
      * @param   array  $ribbonItems  The configured ribbon items.
      *
@@ -105,12 +107,48 @@ class PrettyphotoribbonHelper
             }
 
             $image = HTMLHelper::_('cleanImageURL', $ribbonItem->ribbonimage);
-            $image->url = Uri::root() . ltrim($image->url, '/');
+            $url   = $image->url;
 
-            $ribbonItem->ribbonimage = $image;
-            $preparedItems[] = $ribbonItem;
+            // Only relative paths from the media field need the site root.
+            if (!preg_match('#^(?:[a-z][a-z0-9+.-]*:)?//#i', $url))
+            {
+                $url = Uri::root() . ltrim($url, '/');
+            }
+
+            $alt = empty($ribbonItem->alt_empty) ? trim((string) ($ribbonItem->alt ?? '')) : '';
+
+            $preparedItems[] = $this->createItem(
+                $url,
+                (int) ($image->attributes['width'] ?? 0),
+                (int) ($image->attributes['height'] ?? 0),
+                $alt
+            );
         }
 
         return $preparedItems;
+    }
+
+    /**
+     * Build one ribbon item as used by the layout.
+     *
+     * @param   string  $url     Absolute image URL.
+     * @param   int     $width   Intrinsic width in pixels, 0 when unknown.
+     * @param   int     $height  Intrinsic height in pixels, 0 when unknown.
+     * @param   string  $alt     Alt text, empty for a decorative image.
+     *
+     * @return  \stdClass
+     */
+    private function createItem(string $url, int $width, int $height, string $alt): \stdClass
+    {
+        $image         = new \stdClass();
+        $image->url    = $url;
+        $image->width  = $width;
+        $image->height = $height;
+
+        $item              = new \stdClass();
+        $item->ribbonimage = $image;
+        $item->alt         = $alt;
+
+        return $item;
     }
 }

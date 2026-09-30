@@ -96,8 +96,6 @@ class mod_prettyphotoribbonInstallerScript
             return false;
         }
 
-        echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_PREFLIGHT');
-
         return true;
     }
 
@@ -111,8 +109,6 @@ class mod_prettyphotoribbonInstallerScript
      */
     function postflight($type, $parent)
     {
-        echo Text::_('MOD_PRETTYPHOTORIBBON_INSTALLERSCRIPT_POSTFLIGHT');
-
         return true;
     }
 }
