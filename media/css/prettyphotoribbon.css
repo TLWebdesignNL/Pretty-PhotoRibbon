@@ -2,6 +2,13 @@
   div[id^=prettyRibbonCarousel] .carousel-inner {
     display: flex;
     padding-right: 0.5em;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  div[id^=prettyRibbonCarousel] .carousel-inner::-webkit-scrollbar {
+    display: none;
   }
   div[id^=prettyRibbonCarousel] .carousel-inner .carousel-item:first-child {
     margin-left: -0.5rem;
@@ -9,6 +16,7 @@
   div[id^=prettyRibbonCarousel] .carousel-item {
     margin-right: 0;
     display: block;
+    scroll-snap-align: start;
   }
   div[id^=prettyRibbonCarousel] .btn-close {
     z-index: 1100;

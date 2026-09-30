@@ -1,8 +1,17 @@
 @media (min-width: 768px) {
   div[id^=prettyRibbonCarousel] {
+    // A scrollable row of tiles: arrows/JS scroll it, and trackpads or touch can swipe it natively
     .carousel-inner {
       display: flex;
       padding-right: 0.5em;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       .carousel-item:first-child {
         margin-left: -0.5rem
@@ -12,6 +21,7 @@
     .carousel-item {
       margin-right: 0;
       display: block;
+      scroll-snap-align: start;
     }
 
     .btn-close {
