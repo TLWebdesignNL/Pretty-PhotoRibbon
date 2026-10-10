@@ -1,4 +1,5 @@
 updates.xml export-ignore
+changelog.xml export-ignore
 .gitignore export-ignore
 .gitattributes export-ignore
 README.md export-ignore
