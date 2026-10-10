@@ -22,27 +22,46 @@ jobs:
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Extract version and build download URL
         id: vars
         run: |
           TAG="${GITHUB_REF_NAME}"
           VERSION="${TAG#V}"
-          ZIP_URL="https://github.com/${{ github.repository }}/archive/refs/tags/${TAG}.zip"
+          ZIP_NAME="mod_prettyphotoribbon-${VERSION}.zip"
+          ZIP_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}/${ZIP_NAME}"
           echo "tag=${TAG}" >> $GITHUB_OUTPUT
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "zip_name=${ZIP_NAME}" >> $GITHUB_OUTPUT
           echo "zip_url=${ZIP_URL}" >> $GITHUB_OUTPUT
 
-      - name: Download release zip and compute SHA256
+      # Build the package from the tag; export-ignore rules in .gitattributes
+      # keep repository-only files out of it.
+      - name: Build package and compute SHA256
         id: sha256
         run: |
-          curl -fL -o release.zip "${{ steps.vars.outputs.zip_url }}"
-          SHA=$(sha256sum release.zip | awk '{print $1}')
+          git archive --format=zip -o "${{ steps.vars.outputs.zip_name }}" "${{ steps.vars.outputs.tag }}"
+          SHA=$(sha256sum "${{ steps.vars.outputs.zip_name }}" | awk '{print $1}')
           if ! [[ "${SHA}" =~ ^[a-f0-9]{64}$ ]]; then
-            echo "::error::Could not compute a SHA-256 for ${{ steps.vars.outputs.zip_url }}"
+            echo "::error::Could not compute a SHA-256 for ${{ steps.vars.outputs.zip_name }}"
             exit 1
           fi
           echo "value=${SHA}" >> $GITHUB_OUTPUT
+
+      # Publish the package before updates.xml points sites at it.
+      - name: Create GitHub Release with the package
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.vars.outputs.tag }}
+          VERSION: ${{ steps.vars.outputs.version }}
+          ZIP_NAME: ${{ steps.vars.outputs.zip_name }}
+        run: |
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" "$ZIP_NAME" --clobber
+          else
+            gh release create "$TAG" "$ZIP_NAME" --title "Pretty PhotoRibbon $VERSION" --generate-notes --verify-tag
+          fi
 
       - name: Append entry to updates.xml
         env:
